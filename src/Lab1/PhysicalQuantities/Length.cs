@@ -20,7 +20,7 @@ public record Length
 
     public static Length Create(Velocity left, Time right)
     {
-      return new Length(left.Value * right.Value);
+        return new Length(left.Value * right.Value);
     }
 
     public static bool operator >(Length left, Length right) => left.Value > right.Value;
