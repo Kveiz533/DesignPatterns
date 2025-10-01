@@ -7,7 +7,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
 
 public record Station(Velocity VelocityLimit, Time BoardingTime, Time DisembarkingTime) : IRouteSegment
 {
-    public SegmentPassResult Process(ISegmentProcessor processor, ITrain train)
+    public SegmentPassResult GoThrough(ISegmentProcessor processor, ITrain train)
     {
         return processor.Process(this, train);
     }

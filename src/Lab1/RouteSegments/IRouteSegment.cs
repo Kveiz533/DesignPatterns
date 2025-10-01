@@ -6,5 +6,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
 
 public interface IRouteSegment
 {
-    SegmentPassResult Process(ISegmentProcessor processor, ITrain train);
+    SegmentPassResult GoThrough(ISegmentProcessor processor, ITrain train);
 }

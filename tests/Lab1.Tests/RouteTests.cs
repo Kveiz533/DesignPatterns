@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;
 
-public class XUnitTests
+public class RouteTests
 {
     [Fact]
     public void Simulation_ForceLessThenRouteLimit_EndedCorrectly()

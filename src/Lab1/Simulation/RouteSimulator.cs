@@ -10,7 +10,7 @@ public class RouteSimulator
 {
     private readonly ISegmentProcessor _processor;
 
-    public RouteSimulator(ISegmentProcessor processor)
+    public RouteSimulator(RouteSegmentProcessor processor)
     {
         _processor = processor;
     }
@@ -20,7 +20,7 @@ public class RouteSimulator
         Time finalTime = Time.Zero;
         foreach (IRouteSegment segment in route.Segments)
         {
-            SegmentPassResult result = segment.Process(_processor, train);
+            SegmentPassResult result = segment.GoThrough(_processor, train);
 
             finalTime = result switch
             {
