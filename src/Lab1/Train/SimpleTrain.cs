@@ -35,26 +35,19 @@ public class SimpleTrain
         return new TrainResult.Success(Time.Zero);
     }
 
-    public TrainResult CheckVelocityLimit(Velocity velocityLimit)
-    {
-        return velocityLimit > CurrentVelocity || velocityLimit == CurrentVelocity
-            ? new TrainResult.Success(Time.Zero)
-            : new TrainResult.Failure("Too high velocity");
-    }
-
-    public void ChangeVelocity(Velocity velocity)
+    public void AddToVelocity(Velocity velocity)
     {
         CurrentVelocity += velocity;
     }
 
-    public TrainResult IntegrateMotion(Length segmentLength)
+    public TrainResult Motion(Length segmentLength)
     {
         Length distancePassed = Length.Zero;
         Time timePassed = Time.Zero;
 
         while (distancePassed < segmentLength)
         {
-            ChangeVelocity(Velocity.Create(CurrentAcceleration, Precision));
+            AddToVelocity(Velocity.Create(CurrentAcceleration, Precision));
 
             if (CurrentVelocity < Velocity.Zero || CurrentVelocity == Velocity.Zero)
             {

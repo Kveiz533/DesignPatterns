@@ -15,7 +15,7 @@ public class SimpleMagneticPath : IRouteSegment
 
     public SegmentResult GoThrough(SimpleTrain train)
     {
-        TrainResult res = train.IntegrateMotion(Length);
+        TrainResult res = train.Motion(Length);
 
         return res switch
         {

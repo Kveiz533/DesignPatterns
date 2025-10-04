@@ -23,7 +23,7 @@ public class PowerMagneticPath : IRouteSegment
             return new SegmentResult.Failure(failure.Message);
         }
 
-        TrainResult res = train.IntegrateMotion(Length);
+        TrainResult res = train.Motion(Length);
 
         train.ApplyForce(Force.Zero);
 

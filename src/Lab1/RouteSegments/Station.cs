@@ -21,9 +21,9 @@ public class Station : IRouteSegment
 
     public SegmentResult GoThrough(SimpleTrain train)
     {
-        if (train.CheckVelocityLimit(VelocityLimit) is TrainResult.Failure error)
+        if (VelocityLimit < train.CurrentVelocity)
         {
-            return new SegmentResult.Failure(error.Message);
+            return new SegmentResult.Failure("Too high velocity");
         }
 
         Time timePassed = BoardingTime + DisembarkingTime;
