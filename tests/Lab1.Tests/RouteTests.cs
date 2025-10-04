@@ -1,8 +1,8 @@
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
-using Itmo.ObjectOrientedProgramming.Lab1.Simulation;
 using Itmo.ObjectOrientedProgramming.Lab1.Train;
+using Itmo.ObjectOrientedProgramming.Lab1.TrainRoute;
 using Xunit;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;

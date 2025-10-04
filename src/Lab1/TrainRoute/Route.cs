@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
 using Itmo.ObjectOrientedProgramming.Lab1.Train;
 
-namespace Itmo.ObjectOrientedProgramming.Lab1.Simulation;
+namespace Itmo.ObjectOrientedProgramming.Lab1.TrainRoute;
 
 public class Route
 {
