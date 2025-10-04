@@ -2,11 +2,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 
 public record Acceleration
 {
-    public decimal Value { get; }
+    public double Value { get; }
 
-    public static Acceleration Zero { get; } = new Acceleration(0m);
+    public static Acceleration Zero { get; } = new Acceleration(0);
 
-    public Acceleration(decimal acceleration)
+    public Acceleration(double acceleration)
     {
         Value = acceleration;
     }

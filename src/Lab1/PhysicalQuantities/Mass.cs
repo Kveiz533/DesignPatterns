@@ -2,9 +2,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 
 public record Mass
 {
-    public decimal Value { get; }
+    public double Value { get; }
 
-    public Mass(decimal mass)
+    public Mass(double mass)
     {
         if (mass <= 0)
         {

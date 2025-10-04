@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Train;
 
-public class SimpleTrain : ITrain
+public class SimpleTrain
 {
     public Time Precision { get; }
 
@@ -24,26 +24,47 @@ public class SimpleTrain : ITrain
         CurrentAcceleration = Acceleration.Zero;
     }
 
-    public SegmentPassResult ApplyForce(Force force)
+    public TrainResult ApplyForce(Force force)
     {
         if (force > MaxForce)
         {
-            return new SegmentPassResult.Failure(Time.Zero, "Too much force was applied");
+            return new TrainResult.Failure("Too much force was applied");
         }
 
         CurrentAcceleration = Acceleration.Create(force, Mass);
-        return new SegmentPassResult.Success(Time.Zero);
+        return new TrainResult.Success(Time.Zero);
     }
 
-    public SegmentPassResult CheckVelocityLimit(Velocity velocityLimit)
+    public TrainResult CheckVelocityLimit(Velocity velocityLimit)
     {
         return velocityLimit > CurrentVelocity || velocityLimit == CurrentVelocity
-            ? new SegmentPassResult.Success(Time.Zero)
-            : new SegmentPassResult.Failure(Time.Zero, "Too high velocity");
+            ? new TrainResult.Success(Time.Zero)
+            : new TrainResult.Failure("Too high velocity");
     }
 
     public void ChangeVelocity(Velocity velocity)
     {
         CurrentVelocity += velocity;
+    }
+
+    public TrainResult IntegrateMotion(Length segmentLength)
+    {
+        Length distancePassed = Length.Zero;
+        Time timePassed = Time.Zero;
+
+        while (distancePassed < segmentLength)
+        {
+            ChangeVelocity(Velocity.Create(CurrentAcceleration, Precision));
+
+            if (CurrentVelocity < Velocity.Zero || CurrentVelocity == Velocity.Zero)
+            {
+                return new TrainResult.Failure("The velocity is 0, the train has stopped");
+            }
+
+            distancePassed += Length.Create(CurrentVelocity, Precision);
+            timePassed += Precision;
+        }
+
+        return new TrainResult.Success(timePassed);
     }
 }

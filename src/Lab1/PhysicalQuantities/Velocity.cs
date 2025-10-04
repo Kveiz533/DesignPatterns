@@ -2,11 +2,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 
 public record Velocity
 {
-    public decimal Value { get; }
+    public double Value { get; }
 
-    public static Velocity Zero { get; } = new Velocity(0m);
+    public static Velocity Zero { get; } = new Velocity(0);
 
-    public Velocity(decimal velocity)
+    public Velocity(double velocity)
     {
         Value = velocity;
     }

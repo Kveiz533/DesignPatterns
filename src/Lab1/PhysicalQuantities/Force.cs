@@ -2,11 +2,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 
 public record Force
 {
-    public decimal Value { get; }
+    public double Value { get; }
 
-    public static Force Zero { get; } = new Force(0m);
+    public static Force Zero { get; } = new Force(0);
 
-    public Force(decimal force)
+    public Force(double force)
     {
         Value = force;
     }

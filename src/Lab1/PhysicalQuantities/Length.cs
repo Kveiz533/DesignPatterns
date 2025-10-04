@@ -2,18 +2,18 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 
 public record Length
 {
-    public decimal Value { get; }
+    public double Value { get; }
 
-    public static Length Zero { get; } = new Length(0m);
+    public static Length Zero { get; } = new Length(0);
 
-    public Length(decimal lenght)
+    public Length(double length)
     {
-        if (lenght < 0)
+        if (length < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(lenght), lenght, "Lenght must be not negative.");
+            throw new ArgumentOutOfRangeException(nameof(length), length, "Lenght must be not negative.");
         }
 
-        Value = lenght;
+        Value = length;
     }
 
     public static Length operator +(Length left, Length right) => new Length(left.Value + right.Value);

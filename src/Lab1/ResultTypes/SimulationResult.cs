@@ -8,5 +8,5 @@ public abstract record SimulationResult
 
     public sealed record SimulationEndedCorrectly(Time Time) : SimulationResult;
 
-    public sealed record SimulationEndedWithFailure(Time Time, string Message) : SimulationResult;
+    public sealed record SimulationEndedWithFailure(string Message) : SimulationResult;
 }

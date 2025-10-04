@@ -1,14 +1,32 @@
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab1.SegmentProcessor;
 using Itmo.ObjectOrientedProgramming.Lab1.Train;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
 
-public record Station(Velocity VelocityLimit, Time BoardingTime, Time DisembarkingTime) : IRouteSegment
+public class Station : IRouteSegment
 {
-    public SegmentPassResult GoThrough(ISegmentProcessor processor, ITrain train)
+    public Velocity VelocityLimit { get; }
+
+    public Time BoardingTime { get; }
+
+    public Time DisembarkingTime { get; }
+
+    public Station(Velocity velocityLimit, Time boardingTime, Time disembarkingTime)
     {
-        return processor.Process(this, train);
+        VelocityLimit = velocityLimit;
+        BoardingTime = boardingTime;
+        DisembarkingTime = disembarkingTime;
+    }
+
+    public SegmentResult GoThrough(SimpleTrain train)
+    {
+        if (train.CheckVelocityLimit(VelocityLimit) is TrainResult.Failure error)
+        {
+            return new SegmentResult.Failure(error.Message);
+        }
+
+        Time timePassed = BoardingTime + DisembarkingTime;
+        return new SegmentResult.Success(timePassed);
     }
 }

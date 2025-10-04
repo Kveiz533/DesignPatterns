@@ -2,11 +2,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 
 public record Time
 {
-    public decimal Value { get; }
+    public double Value { get; }
 
-    public static Time Zero { get; } = new Time(0m);
+    public static Time Zero { get; } = new Time(0);
 
-    public Time(decimal time)
+    public Time(double time)
     {
         if (time < 0)
         {

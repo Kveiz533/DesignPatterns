@@ -1,7 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab1.PhysicalQuantities;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab1.RouteSegments;
-using Itmo.ObjectOrientedProgramming.Lab1.SegmentProcessor;
 using Itmo.ObjectOrientedProgramming.Lab1.Simulation;
 using Itmo.ObjectOrientedProgramming.Lab1.Train;
 using Xunit;
@@ -13,7 +12,7 @@ public class RouteTests
     [Fact]
     public void Simulation_ForceLessThenRouteLimit_EndedCorrectly()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(10);
         var force = new Force(100);
         var precisionTime = new Time(2);
@@ -26,20 +25,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(500));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
+        // Assert
         Assert.Equal(res, new SimulationResult.SimulationEndedCorrectly(new Time(86)));
     }
 
     [Fact]
     public void Simulation_ForceMoreThenRouteLimit_EndedWithFailure()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(100);
         var precisionTime = new Time(2);
@@ -52,20 +49,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(20));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
-        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure(new Time(0), "Too much force was applied"));
+        // Assert
+        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure("Too much force was applied"));
     }
 
     [Fact]
     public void Simulation_ForceLessThenStationLimitAndLessThenRouteLimit_EndedCorrectly()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(100);
         var precisionTime = new Time(2);
@@ -81,20 +76,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(20));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
+        // Assert
         Assert.Equal(res, new SimulationResult.SimulationEndedCorrectly(new Time(65)));
     }
 
     [Fact]
     public void Simulation_ForceMoreThenStationLimit_EndedWithFailure()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(10);
         var precisionTime = new Time(2);
@@ -109,20 +102,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(10));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
-        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure(new Time(64), "Too high velocity"));
+        // Assert
+        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure("Too high velocity"));
     }
 
     [Fact]
     public void Simulation_ForceLessThenStationLimitAndMoreThenRouteLimit_EndedWithFailure()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(10);
         var precisionTime = new Time(2);
@@ -137,20 +128,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(1));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
-        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure(new Time(121), "Too much speed for the end of the route"));
+        // Assert
+        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure("Too much speed for the end of the route"));
     }
 
     [Fact]
     public void Simulation_PowerMagneticPathsWhichApplyPositiveAndNegativeForce_EndedCorrectly()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(1000);
         var precisionTime = new Time(2);
@@ -170,20 +159,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(10));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
+        // Assert
         Assert.Equal(res, new SimulationResult.SimulationEndedCorrectly(new Time(131)));
     }
 
     [Fact]
     public void Simulation_NoForceSimpleMagneticPath_EndedWithFailure()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(10);
         var precisionTime = new Time(2);
@@ -196,20 +183,18 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(100));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
-        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure(new Time(0), "The velocity is 0, the train has stopped"));
+        // Assert
+        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure("The velocity is 0, the train has stopped"));
     }
 
     [Fact]
     public void Simulation_NegativeForce_EndedWithFailure()
     {
-        // arrange
+        // Arrange
         var mass = new Mass(100);
         var force = new Force(10);
         var precisionTime = new Time(2);
@@ -223,13 +208,11 @@ public class RouteTests
         ];
 
         var route = new Route(segments, new Velocity(1000));
-        var processor = new RouteSegmentProcessor();
-        var routeSimulator = new RouteSimulator(processor);
 
-        // act
-        SimulationResult res = routeSimulator.RunSimulation(route, train);
+        // Act
+        SimulationResult res = route.RunSimulation(train);
 
-        // assert
-        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure(new Time(94), "The velocity is 0, the train has stopped"));
+        // Assert
+        Assert.Equal(res, new SimulationResult.SimulationEndedWithFailure("The velocity is 0, the train has stopped"));
     }
 }
