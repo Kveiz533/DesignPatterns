@@ -8,7 +8,7 @@ public sealed class FilterAddresseeProxy : IAddressee
 
     private readonly ImportanceLevel _importanceLevelLimit;
 
-    public FilterAddresseeProxy(IAddressee addressee,  ImportanceLevel importanceLevelLimit)
+    public FilterAddresseeProxy(IAddressee addressee, ImportanceLevel importanceLevelLimit)
     {
         _addressee = addressee;
         _importanceLevelLimit = importanceLevelLimit;

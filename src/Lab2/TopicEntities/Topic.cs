@@ -7,7 +7,7 @@ public class Topic
 {
     private readonly IReadOnlyCollection<IAddressee> _addresses;
 
-    public Topic(string name,  IReadOnlyCollection<IAddressee> addresses)
+    public Topic(string name, IReadOnlyCollection<IAddressee> addresses)
     {
         Name = name;
         _addresses = addresses;
