@@ -6,10 +6,6 @@ public sealed class ArchiverInMemory : IArchiver
 {
     private readonly List<Message> _messages = [];
 
-    // public IReadOnlyCollection<Message> ArchivedMessages()
-    // {
-    //    return _messages;
-    // }
     public void Archive(Message message)
     {
         _messages.Add(message);
