@@ -1,22 +1,14 @@
-using Itmo.ObjectOrientedProgramming.Lab2.MessageEntities;
-using Itmo.ObjectOrientedProgramming.Lab2.MessageFormatter;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2.Formatter;
 
 public sealed class ConsoleFormatter : IFormatter
 {
-    private readonly IMessageFormatter _messageFormatter;
-
-    public ConsoleFormatter(IMessageFormatter messageFormatter)
+    public void FormatTitle(string title)
     {
-        _messageFormatter = messageFormatter;
+        Console.WriteLine(title);
     }
 
-    public void Format(Message message)
+    public void FormatBody(string body)
     {
-        string formatedTitle = _messageFormatter.FormatTitle(message.Title);
-        string formatedBody = _messageFormatter.FormatBody(message.Body);
-        Console.WriteLine(formatedTitle);
-        Console.WriteLine(formatedBody);
+        Console.WriteLine(body);
     }
 }

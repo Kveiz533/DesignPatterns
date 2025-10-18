@@ -2,16 +2,16 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.MessageEntities;
 
 public class Message
 {
-    public Message(Title title, Body body, ImportanceLevel importanceLevel)
+    public Message(string title, string body, ImportanceLevel importanceLevel)
     {
         Title = title;
         Body = body;
         ImportanceLevel = importanceLevel;
     }
 
-    public Title Title { get; }
+    public string Title { get; }
 
-    public Body Body { get; }
+    public string Body { get; }
 
     public ImportanceLevel ImportanceLevel { get; }
 }

@@ -1,10 +1,8 @@
-using Itmo.ObjectOrientedProgramming.Lab2.MessageEntities;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2.MessageFormatter;
 
 public interface IMessageFormatter
 {
-    string FormatTitle(Title title);
+    string FormatTitle(string title);
 
-    string FormatBody(Body body);
+    string FormatBody(string body);
 }

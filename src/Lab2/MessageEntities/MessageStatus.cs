@@ -7,4 +7,6 @@ public abstract record MessageStatus
     public sealed record Read : MessageStatus;
 
     public sealed record NotRead : MessageStatus;
+
+    public sealed record NotExisted : MessageStatus;
 }

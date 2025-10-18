@@ -1,16 +1,14 @@
-using Itmo.ObjectOrientedProgramming.Lab2.MessageEntities;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2.MessageFormatter;
 
 public sealed class MdMessageFormatter : IMessageFormatter
 {
-    public string FormatTitle(Title title)
+    public string FormatTitle(string title)
     {
-        return $"# {title.Value}";
+        return $"# {title}";
     }
 
-    public string FormatBody(Body body)
+    public string FormatBody(string body)
     {
-        return $"{body.Value}";
+        return body;
     }
 }

@@ -1,26 +1,21 @@
-using Itmo.ObjectOrientedProgramming.Lab2.MessageEntities;
-using Itmo.ObjectOrientedProgramming.Lab2.MessageFormatter;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2.Formatter;
 
 public sealed class FileFormatter : IFormatter
 {
-    private readonly FilePath _filePath;
+    private readonly string _filePath;
 
-    private readonly IMessageFormatter _messageFormatter;
-
-    public FileFormatter(FilePath filePath, IMessageFormatter messageFormatter)
+    public FileFormatter(string filePath)
     {
         _filePath = filePath;
-        _messageFormatter = messageFormatter;
     }
 
-    public void Format(Message message)
+    public void FormatTitle(string title)
     {
-        string formattedTitle = _messageFormatter.FormatTitle(message.Title);
-        string formattedBody = _messageFormatter.FormatBody(message.Body);
+        File.AppendAllText(_filePath, title + Environment.NewLine);
+    }
 
-        File.AppendAllText(_filePath.Value, formattedTitle + Environment.NewLine);
-        File.AppendAllText(_filePath.Value, formattedBody + Environment.NewLine + Environment.NewLine);
+    public void FormatBody(string body)
+    {
+        File.AppendAllText(_filePath, body + Environment.NewLine + Environment.NewLine);
     }
 }

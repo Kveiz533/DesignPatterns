@@ -17,7 +17,7 @@ public sealed class LoggerAddresseeDecorator : IAddressee
 
     public void ReceiveMessage(Message message)
     {
-        _logger.Log(message);
+        _logger.Log(message.Title + message.Body);
         _addressee.ReceiveMessage(message);
     }
 }

@@ -16,7 +16,7 @@ public class DistributionSystemTests
         // Arrange
         var user = new User();
         var addressee = new AddresseeUser(user);
-        var message = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
+        var message = new Message("Hello", "World", ImportanceLevel.Low());
 
         // Act
         addressee.ReceiveMessage(message);
@@ -31,7 +31,7 @@ public class DistributionSystemTests
         // Arrange
         var user = new User();
         var addressee = new AddresseeUser(user);
-        var message = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
+        var message = new Message("Hello", "World", ImportanceLevel.Low());
 
         // Act
         addressee.ReceiveMessage(message);
@@ -47,7 +47,7 @@ public class DistributionSystemTests
         // Arrange
         var user = new User();
         var addressee = new AddresseeUser(user);
-        var message = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
+        var message = new Message("Hello", "World", ImportanceLevel.Low());
 
         // Act
         addressee.ReceiveMessage(message);
@@ -64,7 +64,7 @@ public class DistributionSystemTests
         // Arrange
         IAddressee mockInnerAddressee = Substitute.For<IAddressee>();
         var addressee = new FilterAddresseeProxy(mockInnerAddressee, ImportanceLevel.High());
-        var message = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
+        var message = new Message("Hello", "World", ImportanceLevel.Low());
 
         // Act
         addressee.ReceiveMessage(message);
@@ -80,13 +80,13 @@ public class DistributionSystemTests
         var user = new User();
         ILogger mockInnerLogger = Substitute.For<ILogger>();
         var addressee = new LoggerAddresseeDecorator(new AddresseeUser(user), mockInnerLogger);
-        var message = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
+        var message = new Message("Hello", "World", ImportanceLevel.Low());
 
         // Act
         addressee.ReceiveMessage(message);
 
         // Assert
-        mockInnerLogger.Received(1).Log(Arg.Any<Message>());
+        mockInnerLogger.Received(1).Log(Arg.Any<string>());
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class DistributionSystemTests
         // Arrange
         IArchiver mockInnerArchiver = Substitute.For<IArchiver>();
         var addressee = new AddresseeArchiver(mockInnerArchiver);
-        var message = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
+        var message = new Message("Hello", "World", ImportanceLevel.Low());
 
         // Act
         addressee.ReceiveMessage(message);
@@ -110,8 +110,8 @@ public class DistributionSystemTests
         // Arrange
         IAddressee mockInnerAddressee = Substitute.For<IAddressee>();
         var addresseeUser = new FilterAddresseeProxy(mockInnerAddressee, ImportanceLevel.Medium());
-        var message1 = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.Low());
-        var message2 = new Message(new Title("Hello"), new Body("World"), ImportanceLevel.High());
+        var message1 = new Message("Hello", "World", ImportanceLevel.Low());
+        var message2 = new Message("Hello", "World", ImportanceLevel.High());
 
         // Act
         addresseeUser.ReceiveMessage(message1);

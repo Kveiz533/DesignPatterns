@@ -8,12 +8,19 @@ public class User
 
     public void ReceiveMessage(Message message)
     {
+        if (_messages.ContainsKey(message))
+        {
+            throw new InvalidOperationException("Already received this message");
+        }
+
         _messages.Add(message, new MessageStatus.NotRead());
     }
 
     public MessageStatus GetMessageStatus(Message message)
     {
-        return _messages[message];
+        return _messages.TryGetValue(message, out MessageStatus? status)
+            ? status
+            : new MessageStatus.NotExisted();
     }
 
     public MarkResult ReadMessage(Message message)

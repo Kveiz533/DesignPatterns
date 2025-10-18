@@ -24,12 +24,13 @@ public sealed class AddresseeAlertSystem : IAddressee
 
     public void ReceiveMessage(Message message)
     {
-        foreach (string specialWord in _specialWords)
+        bool hasSpecialWords = _specialWords.Any(specialWord =>
+            _checker.IsContained(specialWord, message.Title) ||
+            _checker.IsContained(specialWord, message.Body));
+
+        if (hasSpecialWords)
         {
-            if (_checker.IsContained(specialWord, message))
-            {
-                _alertSystem.Notify();
-            }
+            _alertSystem.Notify();
         }
     }
 }
