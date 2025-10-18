@@ -1,22 +1,21 @@
 using Itmo.ObjectOrientedProgramming.Lab2.MessageEntities;
-using Itmo.ObjectOrientedProgramming.Lab2.UserEntities;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Addressee;
 
 public sealed class AddresseeGroup : IAddressee
 {
-    private readonly IReadOnlyCollection<User> _users;
+    private readonly IReadOnlyCollection<IAddressee> _addressees;
 
-    public AddresseeGroup(IReadOnlyCollection<User> users)
+    public AddresseeGroup(IReadOnlyCollection<IAddressee> addressees)
     {
-        _users = users;
+        _addressees = addressees;
     }
 
     public void ReceiveMessage(Message message)
     {
-        foreach (User user in _users)
+        foreach (IAddressee addressee in _addressees)
         {
-            user.ReceiveMessage(message);
+            addressee.ReceiveMessage(message);
         }
     }
 }
