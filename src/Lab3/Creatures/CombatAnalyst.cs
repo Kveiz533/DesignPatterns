@@ -29,7 +29,7 @@ public sealed class CombatAnalyst : ICreature
 
     public void TakeDamage(Damage damage)
     {
-        Health = Health.LoseHp(Health,  damage);
+        Health = Health.LoseHp(Health, damage);
     }
 
     public void SetAttack(Damage damage)
