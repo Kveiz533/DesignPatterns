@@ -17,8 +17,8 @@ public class GameTests
     public void GameTests_ApplyCombinationOfModifiers_BlockDamageAndDoubleAttacked()
     {
         // Arrange
-        ICreatureBuilder builder1 = new EvilFighterBuilderFactory().Create();
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder1 = new EvilFighterBuilderFactory(2).Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
 
         var magicShieldModifier = new MagicShieldModifierFactory();
         var attackMasteryModifierFactory = new AttackMasteryModifierFactory();
@@ -40,7 +40,7 @@ public class GameTests
     public void GameTests_ApplyMagicShieldModifier_BlockDamage()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         var magicShieldModifier = new MagicShieldModifierFactory();
         ICreature evilFighter = builder.AddModifier(magicShieldModifier).Build();
 
@@ -56,7 +56,7 @@ public class GameTests
     public void GameTests_ApplyMagicShieldModifier_Disappear()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         var magicShieldModifier = new MagicShieldModifierFactory();
         ICreature evilFighter = builder.AddModifier(magicShieldModifier).Build();
 
@@ -73,7 +73,7 @@ public class GameTests
     public void GameTests_AttackMasteryModifier_NotMakeDoubleAttack()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         var attackMasteryModifierFactory = new AttackMasteryModifierFactory();
         ICreature evilFighter = builder.AddModifier(attackMasteryModifierFactory).ChangeDamage(new Damage(200)).Build();
         ICreature target = builder.Build();
@@ -90,7 +90,7 @@ public class GameTests
     public void GameTests_AttackMasteryModifier_MakeDoubleAttack()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         var attackMasteryModifierFactory = new AttackMasteryModifierFactory();
         ICreature evilFighter = builder.AddModifier(attackMasteryModifierFactory).ChangeDamage(new Damage(5)).Build();
         ICreature target = builder.Build();
@@ -107,10 +107,10 @@ public class GameTests
     public void GameTests_CombatAnalystAttack_IncreaseDamage()
     {
         // Arrange
-        ICreatureBuilder builder1 = new CombatMasterBuilderFactory().Create();
+        ICreatureBuilder builder1 = new CombatMasterBuilderFactory(new Damage(2)).Create();
         ICreature combatMaster = builder1.Build();
 
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
         ICreature target = builder2.Build();
 
         // Act
@@ -126,10 +126,10 @@ public class GameTests
     public void GameTests_EvilFighterAttacked_IncreaseDamage()
     {
         // Arrange
-        ICreatureBuilder builder1 = new CombatMasterBuilderFactory().Create();
+        ICreatureBuilder builder1 = new CombatMasterBuilderFactory(new Damage(2)).Create();
         ICreature target = builder1.Build();
 
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
         ICreature evilFighter = builder2.Build();
 
         // Act
@@ -147,7 +147,7 @@ public class GameTests
         ICreatureBuilder builder1 = new MimicChestBuilderFactory().Create();
         ICreature mimicChest = builder1.Build();
 
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
         ICreature target = builder2.ChangeDamage(new Damage(200)).Build();
 
         // Act
@@ -166,7 +166,7 @@ public class GameTests
         ICreatureBuilder builder1 = new ImmortalHorrorBuilderFactory().Create();
         ICreature immortalHorror = builder1.Build();
 
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
         ICreature target = builder2.ChangeDamage(new Damage(200)).Build();
 
         // Act
@@ -186,7 +186,7 @@ public class GameTests
         ICreatureBuilder builder1 = new AmuletMasterBuilderFactory().Create();
         ICreature amuletMaster = builder1.Build();
 
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
         ICreature target = builder2.ChangeDamage(new Damage(200)).Build();
 
         // Act
@@ -252,7 +252,7 @@ public class GameTests
     public void GameTests_MagicMirror_HealthAndDamageChanged()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         ICreature evilFighter = builder.Build();
         var magicMirrorSpell = new MagicMirrorSpell();
 
@@ -269,7 +269,7 @@ public class GameTests
     public void GameTests_AddedEightCreaturesIntoPlayerTable_FirstSevenAddedEighthIgnored()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         ICreature evilFighter1 = builder.Build();
         ICreature evilFighter2 = builder.Build();
         ICreature evilFighter3 = builder.Build();
@@ -304,65 +304,22 @@ public class GameTests
 
     [Fact]
 
-    public void GameTests_AddedCreatureIntoPlayerTable_CreatureCloned()
-    {
-        // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
-        ICreature evilFighter = builder.Build();
-
-        var playerTable = new PlayerTable();
-
-        // Act
-        playerTable.AddCreature(evilFighter);
-        ResultTypeReceiveCreature tableCreature = playerTable.AttackedCreature();
-
-        var received = (ResultTypeReceiveCreature.Received)tableCreature;
-        ICreature clonedCreature = received.Creature;
-        clonedCreature.TakeDamage(new Damage(3));
-
-        // Assert
-        Assert.Equal(evilFighter.Health, new Health(6));
-        Assert.Equal(clonedCreature.Health, new Health(3));
-    }
-
-    [Fact]
-
-    public void GameTests_AddedCreatureIntoPlayerTableWithNegativeDamage_NotReceivedAttackingCreatureButReceivedAttackedCreature()
-    {
-        // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
-        ICreature evilFighter = builder.ChangeDamage(new Damage(-2)).Build();
-
-        var playerTable = new PlayerTable();
-
-        // Act
-        playerTable.AddCreature(evilFighter);
-        ResultTypeReceiveCreature res1 = playerTable.AttackingCreature();
-        ResultTypeReceiveCreature res2 = playerTable.AttackedCreature();
-
-        // Assert
-        Assert.IsType<ResultTypeReceiveCreature.NotReceived>(res1);
-        Assert.IsType<ResultTypeReceiveCreature.Received>(res2);
-    }
-
-    [Fact]
-
     public void GameTests_AddedCreatureIntoPlayerTableWithNegativeHealth_NotReceivedAttackingAndAttackedCreature()
     {
         // Arrange
-        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
         ICreature evilFighter = builder.ChangeHealth(new Health(-2)).Build();
 
         var playerTable = new PlayerTable();
 
         // Act
         playerTable.AddCreature(evilFighter);
-        ResultTypeReceiveCreature res1 = playerTable.AttackingCreature();
-        ResultTypeReceiveCreature res2 = playerTable.AttackedCreature();
+        ICreature? res1 = playerTable.FindAttackingCreature();
+        ICreature? res2 = playerTable.FindAttackedCreature();
 
         // Assert
-        Assert.IsType<ResultTypeReceiveCreature.NotReceived>(res1);
-        Assert.IsType<ResultTypeReceiveCreature.NotReceived>(res2);
+        Assert.Null(res1);
+        Assert.Null(res2);
     }
 
     [Fact]
@@ -370,8 +327,8 @@ public class GameTests
     public void GameTests_StartFight_Player1Win()
     {
         // Arrange
-        ICreatureBuilder builder1 = new EvilFighterBuilderFactory().Create();
-        ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
+        ICreatureBuilder builder1 = new EvilFighterBuilderFactory(2).Create();
+        ICreatureBuilder builder2 = new EvilFighterBuilderFactory(2).Create();
         ICreature evilFighter1 = builder1.ChangeHealth(new Health(200)).ChangeDamage(new Damage(200)).Build();
         ICreature evilFighter2 = builder2.Build();
 
@@ -395,10 +352,72 @@ public class GameTests
     public void GameTests_StartFight_Draw()
     {
         // Arrange
+        var playerTable1 = new PlayerTable();
+        var playerTable2 = new PlayerTable();
+
+        var fight = new Fight(playerTable1, playerTable2);
+
+        // Act
+        FightResult res = fight.Simulation();
+
+        // Assert
+        Assert.Equal(FightResult.Draw, res);
+    }
+
+    [Fact]
+
+    public void GameTests_ApplyPotionOnCreatureIntoTable_Applied()
+    {
+        // Arrange
+        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreature evilFighter = builder.Build();
+
+        var playerTable = new PlayerTable();
+
+        ISpell strengthPotion = new StrengthPotionSpell();
+
+        playerTable.AddCreature(evilFighter);
+
+        // Act
+        SpellCastResult res = playerTable.ApplyPotion(strengthPotion, evilFighter);
+        ICreature? creature = playerTable.FindAttackingCreature();
+        Assert.NotNull(creature);
+
+        // Assert
+        Assert.Equal(SpellCastResult.Casted, res);
+        Assert.Equal(creature.Damage, new Damage(6));
+    }
+
+    [Fact]
+
+    public void GameTests_ApplyPotionOnNotAddedCreature_NotApplied()
+    {
+        // Arrange
+        ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
+        ICreature evilFighter1 = builder.Build();
+        ICreature evilFighter2 = builder.Build();
+
+        var playerTable = new PlayerTable();
+
+        ISpell strengthPotion = new StrengthPotionSpell();
+
+        playerTable.AddCreature(evilFighter1);
+
+        // Act
+        SpellCastResult res = playerTable.ApplyPotion(strengthPotion, evilFighter2);
+
+        // Assert
+        Assert.Equal(SpellCastResult.NotCasted, res);
+    }
+
+    [Fact]
+
+    public void GameTests_AddedTwoPlayerTablesIntoFight_TrulyCloned()
+    {
         ICreatureBuilder builder1 = new EvilFighterBuilderFactory().Create();
         ICreatureBuilder builder2 = new EvilFighterBuilderFactory().Create();
-        ICreature evilFighter1 = builder1.ChangeHealth(new Health(-1)).ChangeDamage(new Damage(200)).Build();
-        ICreature evilFighter2 = builder2.ChangeHealth(new Health(-1)).ChangeDamage(new Damage(200)).Build();
+        ICreature evilFighter1 = builder1.Build();
+        ICreature evilFighter2 = builder2.Build();
 
         var playerTable1 = new PlayerTable();
         var playerTable2 = new PlayerTable();
@@ -412,6 +431,8 @@ public class GameTests
         FightResult res = fight.Simulation();
 
         // Assert
-        Assert.Equal(FightResult.Draw, res);
+        Assert.Equal(FightResult.Player2Win, res);
+        Assert.Equal(evilFighter1.Health, new Health(6));
+        Assert.Equal(evilFighter2.Health, new Health(6));
     }
 }

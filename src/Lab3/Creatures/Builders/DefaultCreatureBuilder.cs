@@ -7,8 +7,6 @@ internal abstract class DefaultCreatureBuilder : ICreatureBuilder
 {
     private readonly List<IModifierFactory> _factories = [];
 
-    protected IReadOnlyCollection<IModifierFactory> Factories => _factories;
-
     protected Health? Health { get; private set; }
 
     protected Damage? Damage { get; private set; }
@@ -31,5 +29,10 @@ internal abstract class DefaultCreatureBuilder : ICreatureBuilder
         return this;
     }
 
-    public abstract ICreature Build();
+    public ICreature Build()
+    {
+        return _factories.Aggregate(BuildCore(), (currentCreature, factory) => factory.Create(currentCreature));
+    }
+
+    protected abstract ICreature BuildCore();
 }

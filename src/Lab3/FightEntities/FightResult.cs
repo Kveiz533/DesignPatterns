@@ -5,5 +5,4 @@ public enum FightResult
     Player1Win,
     Player2Win,
     Draw,
-    Continue,
 }

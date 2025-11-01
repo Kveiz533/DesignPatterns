@@ -4,12 +4,18 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 internal sealed class EvilFighterBuilder : DefaultCreatureBuilder
 {
-    public override ICreature Build()
+    private readonly int _damageMultiplier;
+
+    public EvilFighterBuilder(int damageMultiplier)
+    {
+        _damageMultiplier = damageMultiplier;
+    }
+
+    protected override ICreature BuildCore()
     {
         Health initialHealth = Health ?? new Health(6);
         Damage initialDamage = Damage ?? new Damage(1);
 
-        ICreature evilFighter = new EvilFighter(initialHealth, initialDamage);
-        return Factories.Aggregate(evilFighter, (currentCreature, factory) => factory.Create(currentCreature));
+        return new EvilFighter(initialHealth, initialDamage, _damageMultiplier);
     }
 }

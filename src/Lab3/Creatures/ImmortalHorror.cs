@@ -2,52 +2,32 @@
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public sealed class ImmortalHorror : ICreature
+public sealed class ImmortalHorror : BaseCreature
 {
-    public ImmortalHorror(Health health, Damage damage)
-    {
-        Health = health;
-        Damage = damage;
-    }
-
-    public ICreature Clone()
-    {
-        return new ImmortalHorror(Health, Damage);
-    }
-
-    public Health Health { get; private set; }
-
-    public Damage Damage { get; private set; }
-
-    public bool IsAlive => Health > Health.Zero();
+    private readonly Health _healthAfterReincarnation;
 
     private bool _hasReincarnation = true;
 
-    public void Attack(ICreature target)
+    public ImmortalHorror(Health health, Damage damage, Health healthAfterReincarnation) : base(health, damage)
     {
-        target.TakeDamage(Damage);
+        _healthAfterReincarnation = healthAfterReincarnation;
     }
 
-    public void TakeDamage(Damage damage)
+    public override ICreature Clone()
     {
-        if (damage.Value >= Health.Value && _hasReincarnation)
+        return new ImmortalHorror(Health, Damage, _healthAfterReincarnation);
+    }
+
+    public override void TakeDamage(Damage damage)
+    {
+        Health = Health.DecreasedBy(damage);
+
+        if (IsAlive || !_hasReincarnation)
         {
-            _hasReincarnation = false;
-            Health = new Health(1);
+            return;
         }
-        else
-        {
-            Health = Health.LoseHp(Health, damage);
-        }
-    }
 
-    public void SetAttack(Damage damage)
-    {
-        Damage = damage;
-    }
-
-    public void SetHealth(Health health)
-    {
-        Health = health;
+        _hasReincarnation = false;
+        Health = _healthAfterReincarnation;
     }
 }

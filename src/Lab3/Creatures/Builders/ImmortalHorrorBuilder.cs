@@ -4,12 +4,18 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 internal sealed class ImmortalHorrorBuilder : DefaultCreatureBuilder
 {
-    public override ICreature Build()
+    private readonly Health _healthAfterReincarnation;
+
+    public ImmortalHorrorBuilder(Health healthAfterReincarnation)
+    {
+        _healthAfterReincarnation = healthAfterReincarnation;
+    }
+
+    protected override ICreature BuildCore()
     {
         Health initialHealth = Health ?? new Health(4);
         Damage initialDamage = Damage ?? new Damage(4);
 
-        ICreature immortalHorror = new ImmortalHorror(initialHealth, initialDamage);
-        return Factories.Aggregate(immortalHorror, (currentCreature, factory) => factory.Create(currentCreature));
+        return new ImmortalHorror(initialHealth, initialDamage, _healthAfterReincarnation);
     }
 }

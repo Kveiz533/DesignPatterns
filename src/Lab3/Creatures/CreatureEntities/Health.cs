@@ -9,14 +9,19 @@ public record Health
 
     public int Value { get; }
 
-    public static Health LoseHp(Health health, Damage damage)
+    public Health DecreasedBy(Damage damage)
     {
-        return new Health(health.Value - damage.Value);
+        return new Health(Value - damage.Value);
     }
 
     public static Health Zero()
     {
         return new Health(0);
+    }
+
+    public static Health Max(Health health1, Health health2)
+    {
+        return health1 > health2 ? new Health(health1.Value) : new Health(health2.Value);
     }
 
     public static bool operator >(Health a, Health b) => a.Value > b.Value;

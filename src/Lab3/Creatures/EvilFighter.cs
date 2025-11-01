@@ -2,43 +2,23 @@
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public sealed class EvilFighter : ICreature
+public sealed class EvilFighter : BaseCreature
 {
-    public EvilFighter(Health health, Damage damage)
+    private readonly int _damageMultiplier;
+
+    public EvilFighter(Health health, Damage damage, int damageMultiplier) : base(health, damage)
     {
-        Health = health;
-        Damage = damage;
+        _damageMultiplier = damageMultiplier;
     }
 
-    public ICreature Clone()
+    public override ICreature Clone()
     {
-        return new EvilFighter(Health, Damage);
+        return new EvilFighter(Health, Damage,  _damageMultiplier);
     }
 
-    public Health Health { get; private set; }
-
-    public Damage Damage { get; private set; }
-
-    public bool IsAlive => Health > Health.Zero();
-
-    public void Attack(ICreature target)
+    public override void TakeDamage(Damage damage)
     {
-        target.TakeDamage(Damage);
-    }
-
-    public void TakeDamage(Damage damage)
-    {
-        Damage = Damage.Increase(Damage, 2);
-        Health = Health.LoseHp(Health, damage);
-    }
-
-    public void SetAttack(Damage damage)
-    {
-        Damage = damage;
-    }
-
-    public void SetHealth(Health health)
-    {
-        Health = health;
+        Damage *= _damageMultiplier;
+        Health = Health.DecreasedBy(damage);
     }
 }

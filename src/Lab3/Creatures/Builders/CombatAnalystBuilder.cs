@@ -4,12 +4,18 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 internal sealed class CombatAnalystBuilder : DefaultCreatureBuilder
 {
-    public override ICreature Build()
+    private readonly Damage _damageMultiplier;
+
+    public CombatAnalystBuilder(Damage damageMultiplier)
+    {
+        _damageMultiplier = damageMultiplier;
+    }
+
+    protected override ICreature BuildCore()
     {
         Health initialHealth = Health ?? new Health(4);
         Damage initialDamage = Damage ?? new Damage(2);
 
-        ICreature combatAnalyst = new CombatAnalyst(initialHealth, initialDamage);
-        return Factories.Aggregate(combatAnalyst, (currentCreature, factory) => factory.Create(currentCreature));
+        return new CombatAnalyst(initialHealth, initialDamage, _damageMultiplier);
     }
 }

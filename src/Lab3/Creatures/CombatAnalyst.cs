@@ -2,43 +2,23 @@
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 
-public sealed class CombatAnalyst : ICreature
+public sealed class CombatAnalyst : BaseCreature
 {
-    public CombatAnalyst(Health health, Damage damage)
+    private readonly Damage _damageIncrease;
+
+    public CombatAnalyst(Health health, Damage damage, Damage damageMultiplier) : base(health, damage)
     {
-        Health = health;
-        Damage = damage;
+        _damageIncrease = damageMultiplier;
     }
 
-    public ICreature Clone()
+    public override ICreature Clone()
     {
-        return new CombatAnalyst(Health, Damage);
+        return new CombatAnalyst(Health, Damage, _damageIncrease);
     }
 
-    public Health Health { get; private set; }
-
-    public Damage Damage { get; private set; }
-
-    public bool IsAlive => Health > Health.Zero();
-
-    public void Attack(ICreature target)
+    public override void Attack(ICreature target)
     {
-        Damage += new Damage(2);
+        Damage += _damageIncrease;
         target.TakeDamage(Damage);
-    }
-
-    public void TakeDamage(Damage damage)
-    {
-        Health = Health.LoseHp(Health, damage);
-    }
-
-    public void SetAttack(Damage damage)
-    {
-        Damage = damage;
-    }
-
-    public void SetHealth(Health health)
-    {
-        Health = health;
     }
 }
