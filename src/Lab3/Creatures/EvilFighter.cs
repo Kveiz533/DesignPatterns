@@ -13,7 +13,7 @@ public sealed class EvilFighter : BaseCreature
 
     public override ICreature Clone()
     {
-        return new EvilFighter(Health, Damage,  _damageMultiplier);
+        return new EvilFighter(Health, Damage, _damageMultiplier);
     }
 
     public override void TakeDamage(Damage damage)
