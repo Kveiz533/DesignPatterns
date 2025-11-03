@@ -6,6 +6,11 @@ public abstract class BaseCreature : ICreature
 {
     protected BaseCreature(Health health, Damage damage)
     {
+        if (health < Health.Zero())
+        {
+            throw new ArgumentOutOfRangeException(nameof(health), "You can not create a creature with a negative health.");
+        }
+
         Health = health;
         Damage = damage;
     }

@@ -308,7 +308,8 @@ public class GameTests
     {
         // Arrange
         ICreatureBuilder builder = new EvilFighterBuilderFactory(2).Create();
-        ICreature evilFighter = builder.ChangeHealth(new Health(-2)).Build();
+        ICreature evilFighter = builder.Build();
+        evilFighter.SetHealth(new Health(-2));
 
         var playerTable = new PlayerTable();
 

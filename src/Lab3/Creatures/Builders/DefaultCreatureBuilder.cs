@@ -19,6 +19,11 @@ internal abstract class DefaultCreatureBuilder : ICreatureBuilder
 
     public ICreatureBuilder ChangeHealth(Health health)
     {
+        if (health < Health.Zero())
+        {
+            throw new ArgumentOutOfRangeException(nameof(health), "You can not create a creature with a negative health.");
+        }
+
         Health = health;
         return this;
     }
