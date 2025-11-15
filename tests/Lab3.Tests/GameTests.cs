@@ -5,6 +5,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Factories;
 using Itmo.ObjectOrientedProgramming.Lab3.FightEntities;
 using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.Factories;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
+using Itmo.ObjectOrientedProgramming.Lab3.Strategies;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables;
 using Xunit;
 
@@ -279,7 +280,7 @@ public class GameTests
         ICreature evilFighter7 = builder.Build();
         ICreature evilFighter8 = builder.Build();
 
-        var playerTable = new PlayerTable();
+        var playerTable = new PlayerTable(new RandomStrategy());
 
         // Act
         AddCreatureResultType res1 = playerTable.AddCreature(evilFighter1);
@@ -311,7 +312,7 @@ public class GameTests
         ICreature evilFighter = builder.Build();
         evilFighter.SetHealth(new Health(-2));
 
-        var playerTable = new PlayerTable();
+        var playerTable = new PlayerTable(new RandomStrategy());
 
         // Act
         playerTable.AddCreature(evilFighter);
@@ -333,8 +334,8 @@ public class GameTests
         ICreature evilFighter1 = builder1.ChangeHealth(new Health(200)).ChangeDamage(new Damage(200)).Build();
         ICreature evilFighter2 = builder2.Build();
 
-        var playerTable1 = new PlayerTable();
-        var playerTable2 = new PlayerTable();
+        var playerTable1 = new PlayerTable(new RandomStrategy());
+        var playerTable2 = new PlayerTable(new RandomStrategy());
 
         playerTable1.AddCreature(evilFighter1);
         playerTable2.AddCreature(evilFighter2);
@@ -353,8 +354,8 @@ public class GameTests
     public void GameTests_StartFight_Draw()
     {
         // Arrange
-        var playerTable1 = new PlayerTable();
-        var playerTable2 = new PlayerTable();
+        var playerTable1 = new PlayerTable(new RandomStrategy());
+        var playerTable2 = new PlayerTable(new RandomStrategy());
 
         var fight = new Fight(playerTable1, playerTable2);
 
@@ -373,7 +374,7 @@ public class GameTests
         ICreatureBuilder builder = new EvilFighterBuilderFactory().Create();
         ICreature evilFighter = builder.Build();
 
-        var playerTable = new PlayerTable();
+        var playerTable = new PlayerTable(new RandomStrategy());
 
         ISpell strengthPotion = new StrengthPotionSpell();
 
@@ -398,7 +399,7 @@ public class GameTests
         ICreature evilFighter1 = builder.Build();
         ICreature evilFighter2 = builder.Build();
 
-        var playerTable = new PlayerTable();
+        var playerTable = new PlayerTable(new RandomStrategy());
 
         ISpell strengthPotion = new StrengthPotionSpell();
 
@@ -420,8 +421,8 @@ public class GameTests
         ICreature evilFighter1 = builder1.Build();
         ICreature evilFighter2 = builder2.Build();
 
-        var playerTable1 = new PlayerTable();
-        var playerTable2 = new PlayerTable();
+        var playerTable1 = new PlayerTable(new RandomStrategy());
+        var playerTable2 = new PlayerTable(new RandomStrategy());
 
         playerTable1.AddCreature(evilFighter1);
         playerTable2.AddCreature(evilFighter2);

@@ -13,9 +13,10 @@ internal sealed class ImmortalHorrorBuilder : DefaultCreatureBuilder
 
     protected override ICreature BuildCore()
     {
-        Health initialHealth = Health ?? new Health(4);
-        Damage initialDamage = Damage ?? new Damage(4);
-
-        return new ImmortalHorror(initialHealth, initialDamage, _healthAfterReincarnation);
+        return new ImmortalHorror(
+            Health ?? throw new ArgumentNullException(nameof(Health), "health is required"),
+            Damage ?? throw new ArgumentNullException(nameof(Damage), "damage is required"),
+            _healthAfterReincarnation,
+            true);
     }
 }

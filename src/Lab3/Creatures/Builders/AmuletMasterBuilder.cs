@@ -1,16 +1,11 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureEntities;
-using Itmo.ObjectOrientedProgramming.Lab3.Modifiers;
-
-namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 internal sealed class AmuletMasterBuilder : DefaultCreatureBuilder
 {
     protected override ICreature BuildCore()
     {
-        Health initialHealth = Health ?? new Health(2);
-        Damage initialDamage = Damage ?? new Damage(5);
-
-        ICreature amuletMaster = new AmuletMaster(initialHealth, initialDamage);
-        return new AttackMasteryModifier(new MagicShieldModifier(amuletMaster));
+        return new AmuletMaster(
+            Health ?? throw new ArgumentNullException(nameof(Health), "health is required"),
+            Damage ?? throw new ArgumentNullException(nameof(Damage), "damage is required"));
     }
 }

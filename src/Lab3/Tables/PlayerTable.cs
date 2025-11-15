@@ -1,6 +1,6 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
-using System.Security.Cryptography;
+using Itmo.ObjectOrientedProgramming.Lab3.Strategies;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Tables;
 
@@ -10,13 +10,16 @@ public class PlayerTable : IPlayerTable
 
     private readonly int _creaturesLimit;
 
+    private readonly ISelectionStrategy _strategy;
+
     private readonly List<ICreature> _creatures = [];
 
     private List<ICreature> AliveCreatures => _creatures.Where(creature => creature.IsAlive).ToList();
 
-    public PlayerTable(int? creaturesLimit = null)
+    public PlayerTable(ISelectionStrategy strategy, int? creaturesLimit = null)
     {
         _creaturesLimit = creaturesLimit ?? DefaultCreaturesLimit;
+        _strategy = strategy;
     }
 
     public AddCreatureResultType AddCreature(ICreature creature)
@@ -32,29 +35,17 @@ public class PlayerTable : IPlayerTable
 
     public ICreature? FindAttackingCreature()
     {
-        if (AliveCreatures.Count == 0)
-        {
-            return null;
-        }
-
-        int index = RandomNumberGenerator.GetInt32(AliveCreatures.Count);
-        return AliveCreatures[index];
+        return AliveCreatures.Count == 0 ? null : _strategy.SelectAttackingCreature(AliveCreatures);
     }
 
     public ICreature? FindAttackedCreature()
     {
-        if (AliveCreatures.Count == 0)
-        {
-            return null;
-        }
-
-        int index = RandomNumberGenerator.GetInt32(AliveCreatures.Count);
-        return AliveCreatures[index];
+        return AliveCreatures.Count == 0 ? null : _strategy.SelectAttackedCreature(AliveCreatures);
     }
 
     public IPlayerTable Clone()
     {
-        var clonedPlayerTable = new PlayerTable();
+        var clonedPlayerTable = new PlayerTable(_strategy, _creaturesLimit);
 
         foreach (ICreature creature in _creatures)
         {

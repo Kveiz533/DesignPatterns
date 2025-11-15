@@ -1,6 +1,4 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureEntities;
-
-namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 internal sealed class EvilFighterBuilder : DefaultCreatureBuilder
 {
@@ -13,9 +11,9 @@ internal sealed class EvilFighterBuilder : DefaultCreatureBuilder
 
     protected override ICreature BuildCore()
     {
-        Health initialHealth = Health ?? new Health(6);
-        Damage initialDamage = Damage ?? new Damage(1);
-
-        return new EvilFighter(initialHealth, initialDamage, _damageMultiplier);
+        return new EvilFighter(
+            Health ?? throw new ArgumentNullException(nameof(Health), "health is required"),
+            Damage ?? throw new ArgumentNullException(nameof(Damage), "damage is required"),
+            _damageMultiplier);
     }
 }

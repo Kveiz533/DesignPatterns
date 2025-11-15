@@ -7,7 +7,7 @@ public sealed class MagicShieldModifier : ICreature
 {
     private readonly ICreature _creature;
 
-    private bool IsActive { get; set; } = true;
+    private bool _isActive = true;
 
     public MagicShieldModifier(ICreature creature)
     {
@@ -16,7 +16,7 @@ public sealed class MagicShieldModifier : ICreature
 
     public ICreature Clone()
     {
-        var clone = new MagicShieldModifier(_creature.Clone()) { IsActive = IsActive };
+        var clone = new MagicShieldModifier(_creature.Clone()) { _isActive = _isActive };
         return clone;
     }
 
@@ -33,9 +33,9 @@ public sealed class MagicShieldModifier : ICreature
 
     public void TakeDamage(Damage damage)
     {
-        if (IsActive)
+        if (_isActive)
         {
-            IsActive = false;
+            _isActive = false;
         }
         else
         {
