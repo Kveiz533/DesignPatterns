@@ -1,0 +1,41 @@
+﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentIterators;
+
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
+
+public sealed class ModeFileSystemArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>
+    where TBuilder : IModeFileSystemBuilder, ICommandBuilder
+{
+    protected override ParseResult TryParseCore(IArgumentIterator iterator, TBuilder builder)
+    {
+        if (iterator.Current() != "-m")
+        {
+            return new ParseResult.FailureWithParsing("Flag is not -m");
+        }
+
+        iterator.MoveNext();
+        string? modeFileSystem = iterator.Current();
+
+        if (modeFileSystem is null)
+        {
+            return new ParseResult.FailureWithArguments("Mode can not be null");
+        }
+
+        SetArgumentResult setArgumentResult = builder.SetModeFileSystem(new LocalFileSystem());
+
+        switch (setArgumentResult)
+        {
+            case SetArgumentResult.Success:
+                iterator.MoveNext();
+                return new ParseResult.Success(builder);
+
+            case SetArgumentResult.Failure failure:
+                return new ParseResult.FailureWithArguments(failure.Message);
+
+            default:
+                return new ParseResult.FailureWithArguments("Unknown error setting ModeFileSystem");
+        }
+    }
+}
