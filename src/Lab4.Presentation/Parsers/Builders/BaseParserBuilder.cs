@@ -14,7 +14,7 @@ public abstract class BaseParserBuilder<TBuilder> : IParserBuilder<TBuilder>
 
     private IArgumentParser<TBuilder>? SubChainArgumentsTail { get; set; }
 
-    public void AddCommand(ICommandParser parser)
+    public IParserBuilder<TBuilder> AddCommand(ICommandParser parser)
     {
         if (SubChainCommandsHead is null)
         {
@@ -26,9 +26,11 @@ public abstract class BaseParserBuilder<TBuilder> : IParserBuilder<TBuilder>
         }
 
         SubChainCommandsTail = parser;
+
+        return this;
     }
 
-    public void AddPositional(IArgumentParser<TBuilder> parser)
+    public IParserBuilder<TBuilder> AddPositional(IArgumentParser<TBuilder> parser)
     {
         if (SubChainArgumentsTail is null)
         {
@@ -40,9 +42,11 @@ public abstract class BaseParserBuilder<TBuilder> : IParserBuilder<TBuilder>
         }
 
         SubChainArgumentsTail = parser;
+
+        return this;
     }
 
-    public void AddFlag(IArgumentParser<TBuilder> parser)
+    public IParserBuilder<TBuilder> AddFlag(IArgumentParser<TBuilder> parser)
     {
         if (SubChainArgumentsHead is null)
         {
@@ -54,6 +58,8 @@ public abstract class BaseParserBuilder<TBuilder> : IParserBuilder<TBuilder>
             parser.AddNext(SubChainArgumentsHead);
             SubChainArgumentsHead = parser;
         }
+
+        return this;
     }
 
     public abstract ICommandParser Build();

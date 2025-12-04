@@ -48,7 +48,8 @@ public abstract class BaseParser<TBuilder> : ICommandParser
             {
                 return subResult;
             }
-            else if (subResult is ParseResult.FailureWithArguments failure)
+
+            if (subResult is ParseResult.FailureWithArguments failure)
             {
                 return failure;
             }
@@ -57,12 +58,11 @@ public abstract class BaseParser<TBuilder> : ICommandParser
         TBuilder builder = CreateBuilder();
         while (iterator.Current() is not null)
         {
-            Console.WriteLine(iterator.Current());
             bool handled = false;
 
             if (_subChainArguments is not null)
             {
-                ParseResult parseResult = _subChainArguments.TryParse(iterator, builder);
+                ParseResult parseResult = _subChainArguments.Parse(iterator, builder);
 
                 if (parseResult is ParseResult.Success)
                 {
@@ -74,7 +74,6 @@ public abstract class BaseParser<TBuilder> : ICommandParser
                 }
             }
 
-            Console.WriteLine(handled);
             if (!handled)
             {
                 return new ParseResult.FailureWithArguments("Invalid argument");

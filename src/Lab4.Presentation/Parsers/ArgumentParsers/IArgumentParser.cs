@@ -6,5 +6,5 @@ public interface IArgumentParser<TBuilder>
 {
     void AddNext(IArgumentParser<TBuilder> parser);
 
-    ParseResult TryParse(IArgumentIterator iterator, TBuilder builder);
+    ParseResult Parse(IArgumentIterator iterator, TBuilder builder);
 }
