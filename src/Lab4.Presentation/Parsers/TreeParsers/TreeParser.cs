@@ -1,19 +1,22 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.TreeCommandBuilders;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
-
-public sealed class TreeParser : BaseParser<TreeCommandBuilder>
+public sealed class TreeParser : BaseParser
 {
-    public TreeParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<TreeCommandBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
+    private readonly ICommandParser _subChain;
 
-    protected override string CommandName => "tree";
-
-    protected override TreeCommandBuilder CreateBuilder()
+    public TreeParser(ICommandParser subChain)
     {
-        return new TreeCommandBuilder();
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != "tree")
+        {
+            return new ParseResult.Failure("Not tree command");
+        }
+
+        iterator.MoveNext();
+        return _subChain.Parse(iterator);
     }
 }

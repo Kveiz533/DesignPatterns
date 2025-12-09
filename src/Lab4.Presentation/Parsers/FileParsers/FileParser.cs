@@ -1,19 +1,22 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.FileCommandBuilders;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
-
-public sealed class FileParser : BaseParser<FileCommandBuilder>
+public sealed class FileParser : BaseParser
 {
-    public FileParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<FileCommandBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
+    private readonly ICommandParser _subChain;
 
-    protected override string CommandName => "file";
-
-    protected override FileCommandBuilder CreateBuilder()
+    public FileParser(ICommandParser subChain)
     {
-        return new FileCommandBuilder();
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != "file")
+        {
+            return new ParseResult.Failure("Not file command");
+        }
+
+        iterator.MoveNext();
+        return _subChain.Parse(iterator);
     }
 }

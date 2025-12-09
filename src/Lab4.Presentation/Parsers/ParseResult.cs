@@ -8,7 +8,7 @@ public abstract record ParseResult
 
     public sealed record Success(ICommandBuilder Builder) : ParseResult;
 
-    public sealed record FailureWithParsing(string Message) : ParseResult;
+    public sealed record Failure(string Message) : ParseResult;
 
-    public sealed record FailureWithArguments(string Message) : ParseResult;
+    public sealed record CriticalFailure(string Message) : ParseResult;
 }

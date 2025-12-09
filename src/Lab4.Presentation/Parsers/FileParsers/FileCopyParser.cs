@@ -3,17 +3,49 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
 
-public sealed class FileCopyParser : BaseParser<FileCopyCommandBuilder>
+public sealed class FileCopyParser : BaseParser
 {
-    public FileCopyParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<FileCopyCommandBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
+    private readonly IArgumentParser<FileCopyCommandBuilder> _subChain;
 
-    protected override string CommandName => "copy";
-
-    protected override FileCopyCommandBuilder CreateBuilder()
+    public FileCopyParser(IArgumentParser<FileCopyCommandBuilder> subChain)
     {
-        return new FileCopyCommandBuilder();
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != "copy")
+        {
+            return new ParseResult.Failure("Not copy command");
+        }
+
+        iterator.MoveNext();
+        var builder = new FileCopyCommandBuilder();
+
+        while (iterator.Current is not null)
+        {
+            bool handled = false;
+
+            if (_subChain is not null)
+            {
+                ParseResult parseResult = _subChain.Parse(iterator, builder);
+
+                if (parseResult is ParseResult.Success)
+                {
+                    handled = true;
+                }
+                else if (parseResult is ParseResult.CriticalFailure failure)
+                {
+                    return new ParseResult.CriticalFailure(failure.Message);
+                }
+            }
+
+            if (!handled)
+            {
+                return new ParseResult.CriticalFailure("Invalid argument");
+            }
+        }
+
+        return new ParseResult.Success(builder);
     }
 }

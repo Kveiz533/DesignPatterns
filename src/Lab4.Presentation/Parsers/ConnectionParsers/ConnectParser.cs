@@ -3,17 +3,49 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ConnectionParsers;
 
-public sealed class ConnectParser : BaseParser<ConnectCommandPrinterBuilder>
+public sealed class ConnectParser : BaseParser
 {
-    public ConnectParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<ConnectCommandPrinterBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
+    private readonly IArgumentParser<ConnectCommandBuilder> _subChain;
 
-    protected override string CommandName => "connect";
-
-    protected override ConnectCommandPrinterBuilder CreateBuilder()
+    public ConnectParser(IArgumentParser<ConnectCommandBuilder> subChain)
     {
-        return new ConnectCommandPrinterBuilder();
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != "connect")
+        {
+            return new ParseResult.Failure("Not connect command");
+        }
+
+        iterator.MoveNext();
+        var builder = new ConnectCommandBuilder();
+
+        while (iterator.Current is not null)
+        {
+            bool handled = false;
+
+            if (_subChain is not null)
+            {
+                ParseResult parseResult = _subChain.Parse(iterator, builder);
+
+                if (parseResult is ParseResult.Success)
+                {
+                    handled = true;
+                }
+                else if (parseResult is ParseResult.CriticalFailure failure)
+                {
+                    return new ParseResult.CriticalFailure(failure.Message);
+                }
+            }
+
+            if (!handled)
+            {
+                return new ParseResult.CriticalFailure("Invalid argument");
+            }
+        }
+
+        return new ParseResult.Success(builder);
     }
 }

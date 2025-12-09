@@ -3,17 +3,49 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
 
-public sealed class FileMoveParser : BaseParser<FileMoveCommandBuilder>
+public sealed class FileMoveParser : BaseParser
 {
-    public FileMoveParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<FileMoveCommandBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
+    private readonly IArgumentParser<FileMoveCommandBuilder> _subChain;
 
-    protected override string CommandName => "move";
-
-    protected override FileMoveCommandBuilder CreateBuilder()
+    public FileMoveParser(IArgumentParser<FileMoveCommandBuilder> subChain)
     {
-        return new FileMoveCommandBuilder();
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != "move")
+        {
+            return new ParseResult.Failure("Not move command");
+        }
+
+        iterator.MoveNext();
+        var builder = new FileMoveCommandBuilder();
+
+        while (iterator.Current is not null)
+        {
+            bool handled = false;
+
+            if (_subChain is not null)
+            {
+                ParseResult parseResult = _subChain.Parse(iterator, builder);
+
+                if (parseResult is ParseResult.Success)
+                {
+                    handled = true;
+                }
+                else if (parseResult is ParseResult.CriticalFailure failure)
+                {
+                    return new ParseResult.CriticalFailure(failure.Message);
+                }
+            }
+
+            if (!handled)
+            {
+                return new ParseResult.CriticalFailure("Invalid argument");
+            }
+        }
+
+        return new ParseResult.Success(builder);
     }
 }

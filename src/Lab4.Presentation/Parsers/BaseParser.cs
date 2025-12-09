@@ -1,89 +1,32 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentIterators;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
-
-public abstract class BaseParser<TBuilder> : ICommandParser
-    where TBuilder : ICommandBuilder
+public abstract class BaseParser : ICommandParser
 {
-    private readonly ICommandParser? _subChainCommands;
-    private readonly IArgumentParser<TBuilder>? _subChainArguments;
-    private ICommandParser? _nextParser;
-
-    protected BaseParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<TBuilder>? subChainArguments)
-    {
-        _subChainCommands = subChainCommands;
-        _subChainArguments = subChainArguments;
-    }
+    private ICommandParser NextParser { get; set; } = new DefaultCommandParser();
 
     public void AddNext(ICommandParser nextParser)
     {
-        if (_nextParser is not null)
+        if (NextParser is not DefaultCommandParser)
         {
-            _nextParser.AddNext(nextParser);
+            NextParser.AddNext(nextParser);
         }
         else
         {
-            _nextParser = nextParser;
+            NextParser = nextParser;
         }
     }
 
-    public ParseResult Parse(IArgumentIterator iterator)
+    public ParseResult Parse(IEnumerator<string> iterator)
     {
-        if (iterator.Current() != CommandName)
+        ParseResult result = ParseCore(iterator);
+
+        if (result is ParseResult.Failure)
         {
-            return _nextParser?.Parse(iterator)
-                   ?? new ParseResult.FailureWithParsing("Invalid command");
+            return NextParser.Parse(iterator);
         }
 
-        iterator.MoveNext();
-
-        if (_subChainCommands is not null && iterator.Current() is not null)
-        {
-            ParseResult subResult = _subChainCommands.Parse(iterator);
-            if (subResult is ParseResult.Success)
-            {
-                return subResult;
-            }
-
-            if (subResult is ParseResult.FailureWithArguments failure)
-            {
-                return failure;
-            }
-        }
-
-        TBuilder builder = CreateBuilder();
-        while (iterator.Current() is not null)
-        {
-            bool handled = false;
-
-            if (_subChainArguments is not null)
-            {
-                ParseResult parseResult = _subChainArguments.Parse(iterator, builder);
-
-                if (parseResult is ParseResult.Success)
-                {
-                    handled = true;
-                }
-                else if (parseResult is ParseResult.FailureWithArguments failure)
-                {
-                    return new ParseResult.FailureWithArguments(failure.Message);
-                }
-            }
-
-            if (!handled)
-            {
-                return new ParseResult.FailureWithArguments("Invalid argument");
-            }
-        }
-
-        return new ParseResult.Success(builder);
+        return result;
     }
 
-    protected abstract string CommandName { get; }
-
-    protected abstract TBuilder CreateBuilder();
+    protected abstract ParseResult ParseCore(IEnumerator<string> iterator);
 }

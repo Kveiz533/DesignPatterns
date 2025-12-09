@@ -1,19 +1,24 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ConnectionCommandBuilders;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ConnectionParsers;
 
-public sealed class DisconnectParser : BaseParser<DisconnectCommandBuilder>
+public sealed class DisconnectParser : BaseParser
 {
-    public DisconnectParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<DisconnectCommandBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
-
-    protected override string CommandName => "disconnect";
-
-    protected override DisconnectCommandBuilder CreateBuilder()
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
-        return new DisconnectCommandBuilder();
+        if (iterator.Current != "disconnect")
+        {
+            return new ParseResult.Failure("Not disconnect command");
+        }
+
+        iterator.MoveNext();
+        var builder = new DisconnectCommandBuilder();
+
+        if (iterator.Current is not null)
+        {
+            return new ParseResult.CriticalFailure("Too many arguments for command");
+        }
+
+        return new ParseResult.Success(builder);
     }
 }

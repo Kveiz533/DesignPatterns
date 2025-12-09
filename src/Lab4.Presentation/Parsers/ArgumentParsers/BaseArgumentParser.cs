@@ -1,24 +1,15 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentIterators;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
 public abstract class BaseArgumentParser<TBuilder> : IArgumentParser<TBuilder>
     where TBuilder : ICommandBuilder
 {
-    private readonly ITypeParser<TBuilder>? _subChainArgumentValues;
-
-    private IArgumentParser<TBuilder>? _nextParser;
-
-    protected BaseArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues)
-    {
-        _subChainArgumentValues = subChainArgumentValues;
-    }
+    private IArgumentParser<TBuilder> _nextParser = new DefaultArgumentParser<TBuilder>();
 
     public void AddNext(IArgumentParser<TBuilder> parser)
     {
-        if (_nextParser is not null)
+        if (_nextParser is not DefaultArgumentParser<TBuilder>)
         {
             _nextParser.AddNext(parser);
         }
@@ -28,29 +19,17 @@ public abstract class BaseArgumentParser<TBuilder> : IArgumentParser<TBuilder>
         }
     }
 
-    public ParseResult Parse(IArgumentIterator iterator, TBuilder builder)
+    public ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
-        ParseResult identificationResult = ParseCore(iterator, builder);
+        ParseResult result = ParseCore(iterator, builder);
 
-        if (identificationResult is ParseResult.FailureWithParsing)
+        if (result is ParseResult.Failure)
         {
-            return _nextParser?.Parse(iterator, builder) ?? identificationResult;
+            return _nextParser.Parse(iterator, builder);
         }
 
-        if (_subChainArgumentValues is null)
-        {
-            return new ParseResult.FailureWithArguments("Type can not be null");
-        }
-
-        ParseResult res = _subChainArgumentValues.Parse(iterator, builder);
-
-        if (res is ParseResult.FailureWithParsing)
-        {
-            return _nextParser?.Parse(iterator, builder) ?? res;
-        }
-
-        return res;
+        return result;
     }
 
-    protected abstract ParseResult ParseCore(IArgumentIterator iterator, TBuilder builder);
+    protected abstract ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder);
 }

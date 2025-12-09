@@ -1,22 +1,40 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentIterators;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers.FlagArguments;
 
-public sealed class ModeFormatterArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IFlagArgument
+public sealed class ModeFormatterArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IFlagArgument<TBuilder>
     where TBuilder : IModeFormatterBuilder, ICommandBuilder
 {
-    public ModeFormatterArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues) : base(subChainArgumentValues) { }
+    private readonly ITypeParser<TBuilder> _subChain;
 
-    protected override ParseResult ParseCore(IArgumentIterator iterator, TBuilder builder)
+    public ModeFormatterArgumentParser(ITypeParser<TBuilder> subChain)
     {
-        if (iterator.Current() != "-m")
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder)
+    {
+        if (iterator.Current != "-m")
         {
-            return new ParseResult.FailureWithParsing("ModeFormatters not defined");
+            return new ParseResult.Failure("Not mode flag");
         }
 
         iterator.MoveNext();
-        return new ParseResult.Success(builder);
+
+        if (iterator.Current is null)
+        {
+            return new ParseResult.CriticalFailure("Too few arguments");
+        }
+
+        ParseResult resultType = _subChain.Parse(iterator, builder);
+
+        if (resultType is ParseResult.Success)
+        {
+            iterator.MoveNext();
+            return new ParseResult.Success(builder);
+        }
+
+        return new ParseResult.CriticalFailure("Arguments error");
     }
 }

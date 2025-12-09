@@ -1,16 +1,15 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentIterators;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 public abstract class BaseTypeParser<TBuilder> : ITypeParser<TBuilder>
 where TBuilder : ICommandBuilder
 {
-    private ITypeParser<TBuilder>? _nextParser;
+    private ITypeParser<TBuilder> _nextParser = new DefaultTypeParser<TBuilder>();
 
     public void AddNext(ITypeParser<TBuilder> parser)
     {
-        if (_nextParser is not null)
+        if (_nextParser is not DefaultTypeParser<TBuilder>)
         {
             _nextParser.AddNext(parser);
         }
@@ -20,17 +19,17 @@ where TBuilder : ICommandBuilder
         }
     }
 
-    public ParseResult Parse(IArgumentIterator iterator, TBuilder builder)
+    public ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
-        ParseResult parseResult = ParseCore(iterator, builder);
+        ParseResult result = ParseCore(iterator, builder);
 
-        if (parseResult is ParseResult.FailureWithParsing)
+        if (result is ParseResult.Failure)
         {
-            return _nextParser?.Parse(iterator, builder) ?? parseResult;
+            return _nextParser.Parse(iterator, builder);
         }
 
-        return parseResult;
+        return result;
     }
 
-    protected abstract ParseResult ParseCore(IArgumentIterator iterator, TBuilder builder);
+    protected abstract ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder);
 }

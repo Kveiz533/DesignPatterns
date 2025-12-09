@@ -1,10 +1,8 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentIterators;
-
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
 
 public interface ICommandParser
 {
-    ParseResult Parse(IArgumentIterator iterator);
+    ParseResult Parse(IEnumerator<string> iterator);
 
     void AddNext(ICommandParser nextParser);
 }

@@ -3,17 +3,49 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
 
-public sealed class TreeGoToParser : BaseParser<TreeGoToCommandBuilder>
+public sealed class TreeGoToParser : BaseParser
 {
-    public TreeGoToParser(
-        ICommandParser? subChainCommands,
-        IArgumentParser<TreeGoToCommandBuilder>? subChainArguments)
-        : base(subChainCommands, subChainArguments) { }
+    private readonly IArgumentParser<TreeGoToCommandBuilder> _subChain;
 
-    protected override string CommandName => "goto";
-
-    protected override TreeGoToCommandBuilder CreateBuilder()
+    public TreeGoToParser(IArgumentParser<TreeGoToCommandBuilder> subChain)
     {
-        return new TreeGoToCommandBuilder();
+        _subChain = subChain;
+    }
+
+    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != "goto")
+        {
+            return new ParseResult.Failure("Not goto command");
+        }
+
+        iterator.MoveNext();
+        var builder = new TreeGoToCommandBuilder();
+
+        while (iterator.Current is not null)
+        {
+            bool handled = false;
+
+            if (_subChain is not null)
+            {
+                ParseResult parseResult = _subChain.Parse(iterator, builder);
+
+                if (parseResult is ParseResult.Success)
+                {
+                    handled = true;
+                }
+                else if (parseResult is ParseResult.CriticalFailure failure)
+                {
+                    return new ParseResult.CriticalFailure(failure.Message);
+                }
+            }
+
+            if (!handled)
+            {
+                return new ParseResult.CriticalFailure("Invalid argument");
+            }
+        }
+
+        return new ParseResult.Success(builder);
     }
 }
