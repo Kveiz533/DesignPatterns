@@ -4,16 +4,16 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-public sealed class DepthArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>
-    where TBuilder : IDepthBuilder, ICommandBuilder
+public sealed class ModeFormatterArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IFlagArgument
+    where TBuilder : IModeFormatterBuilder, ICommandBuilder
 {
-    public DepthArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues) : base(subChainArgumentValues) { }
+    public ModeFormatterArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues) : base(subChainArgumentValues) { }
 
     protected override ParseResult ParseCore(IArgumentIterator iterator, TBuilder builder)
     {
-        if (iterator.Current() != "-d")
+        if (iterator.Current() != "-m")
         {
-            return new ParseResult.FailureWithParsing("Depth not defined");
+            return new ParseResult.FailureWithParsing("ModeFormatters not defined");
         }
 
         iterator.MoveNext();

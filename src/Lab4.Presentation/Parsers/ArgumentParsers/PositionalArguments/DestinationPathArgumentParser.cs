@@ -4,10 +4,10 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-public sealed class SourcePathArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>
-    where TBuilder : ICommandBuilder, ISourcePathBuilder
+public sealed class DestinationPathArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IPositionalArgument
+    where TBuilder : ICommandBuilder, IDestinationPathBuilder
 {
-    public SourcePathArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues) : base(subChainArgumentValues) { }
+    public DestinationPathArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues) : base(subChainArgumentValues) { }
 
     protected override ParseResult ParseCore(IArgumentIterator iterator, TBuilder builder)
     {

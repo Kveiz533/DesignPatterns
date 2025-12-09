@@ -4,7 +4,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-public sealed class ModeFileSystemArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>
+public sealed class ModeFileSystemArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IFlagArgument
     where TBuilder : IModeFileSystemBuilder, ICommandBuilder
 {
     public ModeFileSystemArgumentParser(ITypeParser<TBuilder>? subChainArgumentValues) : base(subChainArgumentValues) { }
