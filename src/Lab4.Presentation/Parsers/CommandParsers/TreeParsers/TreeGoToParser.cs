@@ -1,7 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.TreeCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.TreeParsers;
 
 public sealed class TreeGoToParser : BaseParser
 {
@@ -15,9 +15,7 @@ public sealed class TreeGoToParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "goto")
-        {
             return new ParseResult.Failure("Not goto command");
-        }
 
         iterator.MoveNext();
         var builder = new TreeGoToCommandBuilder();
@@ -41,9 +39,7 @@ public sealed class TreeGoToParser : BaseParser
             }
 
             if (!handled)
-            {
                 return new ParseResult.CriticalFailure("Invalid argument");
-            }
         }
 
         return new ParseResult.Success(builder);

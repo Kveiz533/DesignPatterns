@@ -1,7 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.FileCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.FileParsers;
 
 public sealed class FileRenameParser : BaseParser
 {
@@ -15,9 +15,7 @@ public sealed class FileRenameParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "rename")
-        {
-            return new ParseResult.Failure("Not rename command");
-        }
+            return new ParseResult.Failure("Not rename command.");
 
         iterator.MoveNext();
         var builder = new FileRenameCommandBuilder();
@@ -41,9 +39,7 @@ public sealed class FileRenameParser : BaseParser
             }
 
             if (!handled)
-            {
-                return new ParseResult.CriticalFailure("Invalid argument");
-            }
+                return new ParseResult.CriticalFailure("Invalid argument.");
         }
 
         return new ParseResult.Success(builder);

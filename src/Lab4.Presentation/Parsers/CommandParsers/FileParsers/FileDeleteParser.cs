@@ -1,7 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.FileCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.FileParsers;
 
 public sealed class FileDeleteParser : BaseParser
 {
@@ -15,9 +15,7 @@ public sealed class FileDeleteParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "delete")
-        {
-            return new ParseResult.Failure("Not delete command");
-        }
+            return new ParseResult.Failure("Not delete command.");
 
         iterator.MoveNext();
         var builder = new FileDeleteCommandBuilder();
@@ -41,9 +39,7 @@ public sealed class FileDeleteParser : BaseParser
             }
 
             if (!handled)
-            {
-                return new ParseResult.CriticalFailure("Invalid argument");
-            }
+                return new ParseResult.CriticalFailure("Invalid argument.");
         }
 
         return new ParseResult.Success(builder);

@@ -2,6 +2,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.RootParserEntities;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation;
 
@@ -18,7 +19,7 @@ public class SimulationRunner
 
             if (command is null)
             {
-                Console.WriteLine("Null command");
+                Console.WriteLine("Null command.");
             }
             else if (command == "exit")
             {

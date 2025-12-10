@@ -1,7 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.FileCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.FileParsers;
 
 public sealed class FileMoveParser : BaseParser
 {
@@ -15,9 +15,7 @@ public sealed class FileMoveParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "move")
-        {
-            return new ParseResult.Failure("Not move command");
-        }
+            return new ParseResult.Failure("Not move command.");
 
         iterator.MoveNext();
         var builder = new FileMoveCommandBuilder();
@@ -41,9 +39,7 @@ public sealed class FileMoveParser : BaseParser
             }
 
             if (!handled)
-            {
-                return new ParseResult.CriticalFailure("Invalid argument");
-            }
+                return new ParseResult.CriticalFailure("Invalid argument.");
         }
 
         return new ParseResult.Success(builder);

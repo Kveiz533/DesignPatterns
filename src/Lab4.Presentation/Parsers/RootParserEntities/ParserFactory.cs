@@ -3,13 +3,14 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.FileCommandBuil
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.TreeCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers.FlagArguments;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers.PositionalArguments;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ConnectionParsers;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.ConnectionParsers;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.FileParsers;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.TreeParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.SubChainBuilders;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.RootParserEntities;
 
 public static class ParserFactory
 {

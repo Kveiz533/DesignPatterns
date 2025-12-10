@@ -1,7 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.FileCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.FileParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.FileParsers;
 
 public sealed class FileShowParser : BaseParser
 {
@@ -15,9 +15,7 @@ public sealed class FileShowParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "show")
-        {
-            return new ParseResult.Failure("Not show command");
-        }
+            return new ParseResult.Failure("Not show command.");
 
         iterator.MoveNext();
         var builder = new FileShowCommandBuilder();
@@ -42,9 +40,7 @@ public sealed class FileShowParser : BaseParser
             }
 
             if (!handled)
-            {
-                return new ParseResult.CriticalFailure("Invalid argument");
-            }
+                return new ParseResult.CriticalFailure("Invalid argument.");
         }
 
         return new ParseResult.Success(builder);

@@ -1,4 +1,4 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+﻿using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.SubChainBuilders;
 

@@ -1,4 +1,4 @@
-﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers;
 
 public interface ICommandParser
 {

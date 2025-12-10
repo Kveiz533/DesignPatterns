@@ -6,6 +6,6 @@ public class DefaultTypeParser<TBuilder> : ITypeParser<TBuilder>
 
     public ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
-        return new ParseResult.CriticalFailure("Reach end of subChain");
+        return new ParseResult.CriticalFailure("Reach end of subChain.");
     }
 }

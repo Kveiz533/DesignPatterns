@@ -11,14 +11,14 @@ where TBuilder : ICommandBuilder, IModeFormatterBuilder
     {
         if (iterator.Current is null)
         {
-            return new ParseResult.CriticalFailure("Too few arguments");
+            return new ParseResult.CriticalFailure("Too few arguments.");
         }
 
         string formatter = iterator.Current;
 
         if (formatter != "console")
         {
-            return new ParseResult.CriticalFailure("Formatter not defined");
+            return new ParseResult.CriticalFailure("Formatter not defined.");
         }
 
         SetArgumentResult buildingResult = builder.SetModePrinter(new ConsoleFormatter());
@@ -28,6 +28,6 @@ where TBuilder : ICommandBuilder, IModeFormatterBuilder
             return new ParseResult.Success(builder);
         }
 
-        return new ParseResult.CriticalFailure("Arguments error");
+        return new ParseResult.CriticalFailure("Arguments error.");
     }
 }

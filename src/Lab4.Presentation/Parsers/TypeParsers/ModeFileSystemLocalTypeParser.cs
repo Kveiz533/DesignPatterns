@@ -11,14 +11,14 @@ where TBuilder : ICommandBuilder, IModeFileSystemBuilder
     {
         if (iterator.Current is null)
         {
-            return new ParseResult.CriticalFailure("Too few arguments");
+            return new ParseResult.CriticalFailure("Too few arguments.");
         }
 
         string fileSystem = iterator.Current;
 
         if (fileSystem != "local")
         {
-            return new ParseResult.CriticalFailure("FileSystem not defined");
+            return new ParseResult.CriticalFailure("FileSystem not defined.");
         }
 
         SetArgumentResult buildingResult = builder.SetModeFileSystem(new LocalFileSystem());
@@ -28,6 +28,6 @@ where TBuilder : ICommandBuilder, IModeFileSystemBuilder
             return new ParseResult.Success(builder);
         }
 
-        return new ParseResult.CriticalFailure("Arguments error");
+        return new ParseResult.CriticalFailure("Arguments error.");
     }
 }

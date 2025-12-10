@@ -1,4 +1,4 @@
-﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers;
 
 public abstract class BaseParser : ICommandParser
 {
@@ -21,9 +21,7 @@ public abstract class BaseParser : ICommandParser
         ParseResult result = ParseCore(iterator);
 
         if (result is ParseResult.Failure)
-        {
             return NextParser.Parse(iterator);
-        }
 
         return result;
     }

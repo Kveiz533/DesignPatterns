@@ -1,4 +1,4 @@
-﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
+﻿namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.TreeParsers;
 
 public sealed class TreeParser : BaseParser
 {
@@ -12,9 +12,7 @@ public sealed class TreeParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "tree")
-        {
             return new ParseResult.Failure("Not tree command");
-        }
 
         iterator.MoveNext();
         return _subChain.Parse(iterator);
