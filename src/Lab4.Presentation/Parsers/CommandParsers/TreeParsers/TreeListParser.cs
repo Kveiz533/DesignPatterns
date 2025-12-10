@@ -1,8 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.TreeCommandBuilders;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TreeParsers;
+namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.TreeParsers;
 
 public sealed class TreeListParser : BaseParser
 {
@@ -16,9 +15,7 @@ public sealed class TreeListParser : BaseParser
     protected override ParseResult ParseCore(IEnumerator<string> iterator)
     {
         if (iterator.Current != "list")
-        {
             return new ParseResult.Failure("Not list command");
-        }
 
         iterator.MoveNext();
         var builder = new TreeListCommandBuilder();
@@ -42,9 +39,7 @@ public sealed class TreeListParser : BaseParser
             }
 
             if (!handled)
-            {
                 return new ParseResult.CriticalFailure("Invalid argument");
-            }
         }
 
         return new ParseResult.Success(builder);
