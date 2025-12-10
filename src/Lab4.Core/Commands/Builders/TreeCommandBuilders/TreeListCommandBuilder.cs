@@ -15,7 +15,7 @@ public sealed class TreeListCommandBuilder : IDepthBuilder, IPrintingParamsBuild
     {
         if (_depth is not null)
         {
-            return new SetArgumentResult.Failure("Depth is already set");
+            return new SetArgumentResult.Failure("Depth is already set.");
         }
 
         _depth = depth;
@@ -26,7 +26,7 @@ public sealed class TreeListCommandBuilder : IDepthBuilder, IPrintingParamsBuild
     {
         if (_directorySymbol is not null)
         {
-            return new SetArgumentResult.Failure("Directory symbol is already set");
+            return new SetArgumentResult.Failure("Directory symbol is already set.");
         }
 
         _directorySymbol = directorySymbol;
@@ -37,7 +37,7 @@ public sealed class TreeListCommandBuilder : IDepthBuilder, IPrintingParamsBuild
     {
         if (_fileSymbol is not null)
         {
-            return new SetArgumentResult.Failure("File symbol is already set");
+            return new SetArgumentResult.Failure("File symbol is already set.");
         }
 
         _fileSymbol = fileSymbol;
@@ -48,7 +48,7 @@ public sealed class TreeListCommandBuilder : IDepthBuilder, IPrintingParamsBuild
     {
         if (_indentSymbol is not null)
         {
-            return new SetArgumentResult.Failure("Indent symbol is already set");
+            return new SetArgumentResult.Failure("Indent symbol is already set.");
         }
 
         _indentSymbol = indentSymbol;
@@ -62,7 +62,7 @@ public sealed class TreeListCommandBuilder : IDepthBuilder, IPrintingParamsBuild
         _indentSymbol ??= ' ';
 
         return _depth is null
-            ? new BuildingResult.Failure("Depth cannot be null")
+            ? new BuildingResult.Failure("Depth cannot be null.")
             : new BuildingResult.Success(
                 new TreeListCommand(
                     _depth.Value,

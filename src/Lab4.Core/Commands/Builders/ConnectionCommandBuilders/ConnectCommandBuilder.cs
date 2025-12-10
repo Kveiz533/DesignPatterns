@@ -15,7 +15,7 @@ public sealed class ConnectCommandBuilder : ISourcePathBuilder, IModeFileSystemB
         _fileSystem ??= new LocalFileSystem();
 
         return _address is null
-            ? new BuildingResult.Failure("Address or Mode cannot be null")
+            ? new BuildingResult.Failure("Address or Mode cannot be null.")
             : new BuildingResult.Success(new ConnectCommand(_address, _fileSystem));
     }
 
@@ -23,7 +23,7 @@ public sealed class ConnectCommandBuilder : ISourcePathBuilder, IModeFileSystemB
     {
         if (_address is not null)
         {
-            return new SetArgumentResult.Failure("Address is already set");
+            return new SetArgumentResult.Failure("Address is already set.");
         }
 
         _address = sourcePath;
@@ -34,7 +34,7 @@ public sealed class ConnectCommandBuilder : ISourcePathBuilder, IModeFileSystemB
     {
         if (_fileSystem is not null)
         {
-            return new SetArgumentResult.Failure("Mode is already set");
+            return new SetArgumentResult.Failure("Mode is already set.");
         }
 
         _fileSystem = fileSystem;

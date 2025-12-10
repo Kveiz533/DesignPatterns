@@ -13,7 +13,7 @@ public sealed class FileShowCommandBuilder : ISourcePathBuilder, IModeFormatterB
     public BuildingResult Build()
     {
         return _path is null || _formatter is null
-            ? new BuildingResult.Failure("Path or Mode cannot be null")
+            ? new BuildingResult.Failure("Path or Mode cannot be null.")
             : new BuildingResult.Success(new FileShowCommand(_path, _formatter));
     }
 
@@ -21,7 +21,7 @@ public sealed class FileShowCommandBuilder : ISourcePathBuilder, IModeFormatterB
     {
         if (_path is not null)
         {
-            return new SetArgumentResult.Failure("Path is already set");
+            return new SetArgumentResult.Failure("Path is already set.");
         }
 
         _path = sourcePath;
@@ -32,7 +32,7 @@ public sealed class FileShowCommandBuilder : ISourcePathBuilder, IModeFormatterB
     {
         if (_formatter is not null)
         {
-            return new SetArgumentResult.Failure("Mode is already set");
+            return new SetArgumentResult.Failure("Mode is already set.");
         }
 
         _formatter = formatter;

@@ -8,6 +8,6 @@ public sealed class DisconnectCommand : ICommand
     {
         return session.Disconnect() ?
             new CommandResult.Success() :
-            new CommandResult.Failure("Already disconnected");
+            new CommandResult.Failure("Already disconnected.");
     }
 }

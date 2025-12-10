@@ -18,12 +18,12 @@ public sealed class ConnectCommand : ICommand
     {
         if (session.IsConnected)
         {
-            return new CommandResult.Failure("Already connected");
+            return new CommandResult.Failure("Already connected.");
         }
 
         if (!_fileSystem.DirectoryExists(_address))
         {
-            return new CommandResult.Failure($"Directory '{_address}' does not exist or is not accessible");
+            return new CommandResult.Failure($"Directory '{_address}' does not exist or is not accessible.");
         }
 
         session.Connect(_fileSystem, _address);

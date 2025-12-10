@@ -18,7 +18,7 @@ public sealed class FileRenameCommand : ICommand
     {
         if (!session.IsConnected)
         {
-            return new CommandResult.Failure("Not connected");
+            return new CommandResult.Failure("Not connected.");
         }
 
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _path);
@@ -30,26 +30,26 @@ public sealed class FileRenameCommand : ICommand
         }
         else
         {
-            return new CommandResult.Failure("SourcePath cannot be resolved");
+            return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
         if (!File.Exists(sourceAbsPath))
         {
-            return new CommandResult.Failure($"Cannot rename file {sourceAbsPath}");
+            return new CommandResult.Failure($"Cannot rename file {sourceAbsPath}.");
         }
 
         string? directory = Path.GetDirectoryName(sourceAbsPath);
 
         if (directory is null)
         {
-            return new CommandResult.Failure("Cannot rename root directory or invalid path");
+            return new CommandResult.Failure("Cannot rename root directory or invalid path.");
         }
 
         string destinationAbsPath = session.FileSystem.CombinePath(directory, _name);
 
         if (File.Exists(destinationAbsPath))
         {
-            return new CommandResult.Failure($"File with name '{_name}' already exists in this directory");
+            return new CommandResult.Failure($"File with name '{_name}' already exists in this directory.");
         }
 
         session.FileSystem.FileRename(sourceAbsPath, destinationAbsPath);

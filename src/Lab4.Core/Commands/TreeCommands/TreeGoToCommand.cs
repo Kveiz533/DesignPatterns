@@ -16,7 +16,7 @@ public sealed class TreeGoToCommand : ICommand
     {
         if (!session.IsConnected)
         {
-            return new CommandResult.Failure("Not connected");
+            return new CommandResult.Failure("Not connected.");
         }
 
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _sourcePath);
@@ -28,7 +28,7 @@ public sealed class TreeGoToCommand : ICommand
         }
         else
         {
-            return new CommandResult.Failure("SourcePath cannot be resolved");
+            return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
         session.FileSystem.TreeGoTo(sourceAbsPath, session);

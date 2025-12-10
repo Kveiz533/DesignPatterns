@@ -18,7 +18,7 @@ public sealed class FileMoveCommand : ICommand
     {
         if (!session.IsConnected)
         {
-            return new CommandResult.Failure("Not connected");
+            return new CommandResult.Failure("Not connected.");
         }
 
         ResolveResult resolveAbsSourcePath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _sourcePath);
@@ -32,7 +32,7 @@ public sealed class FileMoveCommand : ICommand
         }
         else
         {
-            return new CommandResult.Failure("SourcePath cannot be resolved");
+            return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
         if (resolvedAbsDestinationPath is ResolveResult.Success success2)
@@ -41,17 +41,17 @@ public sealed class FileMoveCommand : ICommand
         }
         else
         {
-            return new CommandResult.Failure("DestinationPath cannot be resolved");
+            return new CommandResult.Failure("DestinationPath cannot be resolved.");
         }
 
         if (!session.FileSystem.FileExists(absSourcePath))
         {
-            return new CommandResult.Failure("SourcePath does not exist");
+            return new CommandResult.Failure("SourcePath does not exist.");
         }
 
         if (!session.FileSystem.DirectoryExists(absDestinationPath))
         {
-            return new CommandResult.Failure("DestinationPath does not exist");
+            return new CommandResult.Failure("DestinationPath does not exist.");
         }
 
         string fileName = session.FileSystem.GetFileName(absSourcePath);

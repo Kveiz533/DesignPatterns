@@ -16,7 +16,7 @@ public sealed class FileDeleteCommand : ICommand
     {
         if (!session.IsConnected)
         {
-            return new CommandResult.Failure("Not connected");
+            return new CommandResult.Failure("Not connected.");
         }
 
         ResolveResult resolvedAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _path);
@@ -28,12 +28,12 @@ public sealed class FileDeleteCommand : ICommand
         }
         else
         {
-            return new CommandResult.Failure("Path cannot be resolved");
+            return new CommandResult.Failure("Path cannot be resolved.");
         }
 
         if (!session.FileSystem.FileExists(absPath))
         {
-            return new CommandResult.Failure("Path does not exist");
+            return new CommandResult.Failure("Path does not exist.");
         }
 
         session.FileSystem.FileDelete(absPath);

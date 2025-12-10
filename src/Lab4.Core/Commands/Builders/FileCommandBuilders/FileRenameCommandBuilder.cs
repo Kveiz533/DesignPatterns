@@ -12,7 +12,7 @@ public sealed class FileRenameCommandBuilder : ISourcePathBuilder, INameBuilder
     public BuildingResult Build()
     {
         return _path is null || _name is null
-            ? new BuildingResult.Failure("Path or Name cannot be null")
+            ? new BuildingResult.Failure("Path or Name cannot be null.")
             : new BuildingResult.Success(new FileRenameCommand(_path, _name));
     }
 
@@ -20,7 +20,7 @@ public sealed class FileRenameCommandBuilder : ISourcePathBuilder, INameBuilder
     {
         if (_path is not null)
         {
-            return new SetArgumentResult.Failure("Path is already set");
+            return new SetArgumentResult.Failure("Path is already set.");
         }
 
         _path = sourcePath;
@@ -31,7 +31,7 @@ public sealed class FileRenameCommandBuilder : ISourcePathBuilder, INameBuilder
     {
         if (_name is not null)
         {
-            return new SetArgumentResult.Failure("Name is already set");
+            return new SetArgumentResult.Failure("Name is already set.");
         }
 
         _name = name;

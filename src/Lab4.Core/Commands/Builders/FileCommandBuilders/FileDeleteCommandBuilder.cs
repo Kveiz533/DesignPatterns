@@ -11,7 +11,7 @@ public sealed class FileDeleteCommandBuilder : ISourcePathBuilder
     public BuildingResult Build()
     {
         return _path is null
-            ? new BuildingResult.Failure("Path cannot be null")
+            ? new BuildingResult.Failure("Path cannot be null.")
             : new BuildingResult.Success(new FileDeleteCommand(_path));
     }
 
@@ -19,7 +19,7 @@ public sealed class FileDeleteCommandBuilder : ISourcePathBuilder
     {
         if (_path is not null)
         {
-            return new SetArgumentResult.Failure("Path is already set");
+            return new SetArgumentResult.Failure("Path is already set.");
         }
 
         _path = sourcePath;

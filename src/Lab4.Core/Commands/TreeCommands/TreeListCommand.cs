@@ -23,7 +23,7 @@ public sealed class TreeListCommand : ICommand
     {
         if (!session.IsConnected)
         {
-            return new CommandResult.Failure("Not connected");
+            return new CommandResult.Failure("Not connected.");
         }
 
         var visitor = new ConsoleFileSystemVisitor(

@@ -8,12 +8,12 @@ public sealed class DefaultFileSystem : IFileSystem
 {
     public OpenStreamResult OpenFile(string path)
     {
-        return new OpenStreamResult.Failure("Can't open file");
+        return new OpenStreamResult.Failure("Can't open file.");
     }
 
     public GetChildrenResult GetChildren(string path)
     {
-        return new GetChildrenResult.Failure("Can't get children");
+        return new GetChildrenResult.Failure("Can't get children.");
     }
 
     public void TreeGoTo(string path, ISession session) { }
@@ -45,7 +45,7 @@ public sealed class DefaultFileSystem : IFileSystem
 
     public ResolveResult ResolvePath(string rootPath, string currentPath, string path)
     {
-        return new ResolveResult.Failure("System is disconnected");
+        return new ResolveResult.Failure("System is disconnected.");
     }
 
     public string GetFileName(string path)

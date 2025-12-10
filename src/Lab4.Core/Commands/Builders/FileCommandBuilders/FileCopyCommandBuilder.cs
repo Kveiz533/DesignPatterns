@@ -12,7 +12,7 @@ public sealed class FileCopyCommandBuilder : ISourcePathBuilder, IDestinationPat
     public BuildingResult Build()
     {
         return _sourcePath is null || _destinationPath is null
-            ? new BuildingResult.Failure("SourcePath or DestinationPath cannot be null")
+            ? new BuildingResult.Failure("SourcePath or DestinationPath cannot be null.")
             : new BuildingResult.Success(new FileCopyCommand(_sourcePath, _destinationPath));
     }
 
@@ -20,7 +20,7 @@ public sealed class FileCopyCommandBuilder : ISourcePathBuilder, IDestinationPat
     {
         if (_sourcePath is not null)
         {
-            return new SetArgumentResult.Failure("SourcePath is already set");
+            return new SetArgumentResult.Failure("SourcePath is already set.");
         }
 
         _sourcePath = sourcePath;
@@ -31,7 +31,7 @@ public sealed class FileCopyCommandBuilder : ISourcePathBuilder, IDestinationPat
     {
         if (_destinationPath is not null)
         {
-            return new SetArgumentResult.Failure("DestinationPath is already set");
+            return new SetArgumentResult.Failure("DestinationPath is already set.");
         }
 
         _destinationPath = destinationPath;

@@ -20,7 +20,7 @@ public sealed class LocalFileSystem : IFileSystem
             {
                 DirectoryInfo directory => new DirectoryComponent(directory.Name, directory.FullName),
                 FileInfo file => new FileComponent(file.Name),
-                _ => throw new InvalidOperationException("Unknown file system item"),
+                _ => throw new InvalidOperationException("Unknown file system item."),
             }));
     }
 
