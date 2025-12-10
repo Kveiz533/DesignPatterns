@@ -2,6 +2,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.RootParserEntities;
 using NSubstitute;
 using Xunit;
 
