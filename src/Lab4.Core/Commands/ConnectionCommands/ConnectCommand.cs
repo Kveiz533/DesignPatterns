@@ -14,7 +14,7 @@ public sealed class ConnectCommand : ICommand
         _fileSystem = fileSystem;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (session.IsConnected)
         {

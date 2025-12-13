@@ -1,4 +1,5 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.ResultTypes;
+﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemNodes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Formatters;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
 
@@ -8,9 +9,11 @@ public interface IFileSystem
 {
     OpenStreamResult OpenFile(string path);
 
-    GetChildrenResult GetChildren(string path);
+    IEnumerable<IFileSystemComponent> GetChildren(string path);
 
-    void TreeGoTo(string path, ISession session);
+    void Write(string value);
+
+    void TreeGoTo(string path, Session session);
 
     void FileShow(Stream stream, IFormatter formatter);
 

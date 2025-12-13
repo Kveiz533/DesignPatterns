@@ -7,19 +7,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.TreeCommands;
 public sealed class TreeListCommand : ICommand
 {
     private readonly int _depth;
-    private readonly string _directorySymbol;
-    private readonly string _fileSymbol;
-    private readonly char _indentSymbol;
 
-    public TreeListCommand(int depth, string directorySymbol, string fileSymbol, char indentSymbol)
+    public TreeListCommand(int depth)
     {
         _depth = depth;
-        _directorySymbol = directorySymbol;
-        _fileSymbol = fileSymbol;
-        _indentSymbol = indentSymbol;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (!session.IsConnected)
         {
@@ -28,9 +22,7 @@ public sealed class TreeListCommand : ICommand
 
         var visitor = new ConsoleFileSystemVisitor(
             _depth,
-            _directorySymbol,
-            _fileSymbol,
-            _indentSymbol,
+            session.PrintingEntities,
             session.FileSystem);
 
         string directoryName = session.FileSystem.GetFileName(session.CurrentPath);
@@ -38,8 +30,7 @@ public sealed class TreeListCommand : ICommand
         var startDirectory = new DirectoryComponent(directoryName, session.CurrentPath);
         visitor.Visit(startDirectory);
 
-        Console.WriteLine(visitor.Value);
-
+        session.FileSystem.Write(visitor.Value);
         return new CommandResult.Success();
     }
 }

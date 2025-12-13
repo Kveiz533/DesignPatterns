@@ -13,11 +13,11 @@ public sealed class ModeFormatterArgumentParser<TBuilder> : BaseArgumentParser<T
         _subChain = subChain;
     }
 
-    protected override ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder)
+    public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
         if (iterator.Current != "-m")
         {
-            return new ParseResult.Failure("Not mode flag");
+            return NextParser.Parse(iterator, builder);
         }
 
         iterator.MoveNext();

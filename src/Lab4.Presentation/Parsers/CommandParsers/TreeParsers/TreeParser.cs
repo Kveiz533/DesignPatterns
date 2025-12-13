@@ -9,10 +9,12 @@ public sealed class TreeParser : BaseParser
         _subChain = subChain;
     }
 
-    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    public override ParseResult Parse(IEnumerator<string> iterator)
     {
         if (iterator.Current != "tree")
-            return new ParseResult.Failure("Not tree command");
+        {
+            return NextParser.Parse(iterator);
+        }
 
         iterator.MoveNext();
         return _subChain.Parse(iterator);

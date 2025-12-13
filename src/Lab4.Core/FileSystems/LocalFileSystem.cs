@@ -12,19 +12,25 @@ public sealed class LocalFileSystem : IFileSystem
         return new OpenStreamResult.Success(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
     }
 
-    public GetChildrenResult GetChildren(string path)
+    public IEnumerable<IFileSystemComponent> GetChildren(string path)
     {
-        return new GetChildrenResult.Success(new DirectoryInfo(path)
-            .EnumerateFileSystemInfos()
-            .Select<FileSystemInfo, IFileSystemComponent>(item => item switch
-            {
-                DirectoryInfo directory => new DirectoryComponent(directory.Name, directory.FullName),
-                FileInfo file => new FileComponent(file.Name),
-                _ => throw new InvalidOperationException("Unknown file system item."),
-            }));
+        foreach (string directory in Directory.EnumerateDirectories(path))
+        {
+            yield return new DirectoryComponent(directory, CombinePath(path, directory));
+        }
+
+        foreach (string file in Directory.EnumerateFiles(path))
+        {
+            yield return new FileComponent(GetFileName(file));
+        }
     }
 
-    public void TreeGoTo(string path, ISession session)
+    public void Write(string value)
+    {
+        Console.WriteLine(value);
+    }
+
+    public void TreeGoTo(string path, Session session)
     {
         session.ChangePath(path);
     }

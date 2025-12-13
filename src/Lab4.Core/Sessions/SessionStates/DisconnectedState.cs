@@ -10,13 +10,13 @@ public sealed class DisconnectedState : ISessionState
 
     public string CurrentPath => string.Empty;
 
-    public bool TryConnect(ISession session, IFileSystem fileSystem, string basePath)
+    public bool TryConnect(Session session, IFileSystem fileSystem, string basePath)
     {
         session.UpdateState(new ConnectedState(fileSystem, basePath));
         return true;
     }
 
-    public bool TryDisconnect(ISession session)
+    public bool TryDisconnect(Session session)
     {
         return false;
     }

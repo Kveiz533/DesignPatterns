@@ -12,7 +12,7 @@ public sealed class TreeGoToCommand : ICommand
         _sourcePath = sourcePath;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (!session.IsConnected)
         {
@@ -22,9 +22,9 @@ public sealed class TreeGoToCommand : ICommand
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _sourcePath);
         string sourceAbsPath;
 
-        if (resolveAbsPath is ResolveResult.Success success1)
+        if (resolveAbsPath is ResolveResult.Success resolveAbsPathSuccess)
         {
-            sourceAbsPath = success1.Path;
+            sourceAbsPath = resolveAbsPathSuccess.Path;
         }
         else
         {

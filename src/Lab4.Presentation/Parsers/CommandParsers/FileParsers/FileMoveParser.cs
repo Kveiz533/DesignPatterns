@@ -12,10 +12,12 @@ public sealed class FileMoveParser : BaseParser
         _subChain = subChain;
     }
 
-    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    public override ParseResult Parse(IEnumerator<string> iterator)
     {
         if (iterator.Current != "move")
-            return new ParseResult.Failure("Not move command.");
+        {
+            return NextParser.Parse(iterator);
+        }
 
         iterator.MoveNext();
         var builder = new FileMoveCommandBuilder();
@@ -23,19 +25,15 @@ public sealed class FileMoveParser : BaseParser
         while (iterator.Current is not null)
         {
             bool handled = false;
+            ParseResult parseResult = _subChain.Parse(iterator, builder);
 
-            if (_subChain is not null)
+            if (parseResult is ParseResult.Success)
             {
-                ParseResult parseResult = _subChain.Parse(iterator, builder);
-
-                if (parseResult is ParseResult.Success)
-                {
-                    handled = true;
-                }
-                else if (parseResult is ParseResult.CriticalFailure failure)
-                {
-                    return new ParseResult.CriticalFailure(failure.Message);
-                }
+                handled = true;
+            }
+            else if (parseResult is ParseResult.CriticalFailure failure)
+            {
+                return new ParseResult.CriticalFailure(failure.Message);
             }
 
             if (!handled)

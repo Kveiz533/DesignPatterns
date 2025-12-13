@@ -12,7 +12,7 @@ public sealed class FileDeleteCommand : ICommand
         _path = path;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (!session.IsConnected)
         {

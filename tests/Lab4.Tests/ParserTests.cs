@@ -159,7 +159,7 @@ public class ParserTests
         // Arrange
         IFileSystem mockFileSystem = Substitute.For<IFileSystem>();
         mockFileSystem.DirectoryExists(Arg.Any<string>()).Returns(true);
-        var session = new LocalSession();
+        var session = new Session();
 
         // Act
         bool firstAttempt = session.Connect(mockFileSystem, Path);
@@ -176,7 +176,7 @@ public class ParserTests
         // Arrange
         IFileSystem mockFileSystem = Substitute.For<IFileSystem>();
         mockFileSystem.DirectoryExists(Arg.Any<string>()).Returns(true);
-        var session = new LocalSession();
+        var session = new Session();
 
         // Act
         bool firstAttempt = session.Connect(mockFileSystem, Path);

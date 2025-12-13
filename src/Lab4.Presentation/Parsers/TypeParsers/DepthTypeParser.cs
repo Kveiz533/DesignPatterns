@@ -1,11 +1,10 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Formatters;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
-public class ModeFormatterConsoleTypeParser<TBuilder> : BaseTypeParser<TBuilder>
-where TBuilder : ICommandBuilder, IModeFormatterBuilder
+public class DepthTypeParser<TBuilder> : BaseTypeParser<TBuilder>
+    where TBuilder : ICommandBuilder, IDepthBuilder
 {
     public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
@@ -14,14 +13,19 @@ where TBuilder : ICommandBuilder, IModeFormatterBuilder
             return new ParseResult.CriticalFailure("Too few arguments.");
         }
 
-        string formatter = iterator.Current;
+        string depth = iterator.Current;
 
-        if (formatter != "console")
+        if (!int.TryParse(depth, out int parsedDepth))
         {
             return NextParser.Parse(iterator, builder);
         }
 
-        SetArgumentResult buildingResult = builder.SetModePrinter(new ConsoleFormatter());
+        if (parsedDepth <= 0)
+        {
+            return NextParser.Parse(iterator, builder);
+        }
+
+        SetArgumentResult buildingResult = builder.SetDepth(parsedDepth);
 
         if (buildingResult is SetArgumentResult.Success)
         {

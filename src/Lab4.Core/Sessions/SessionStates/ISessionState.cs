@@ -10,9 +10,9 @@ public interface ISessionState
 
     string CurrentPath { get; }
 
-    bool TryConnect(ISession session, IFileSystem fileSystem, string basePath);
+    bool TryConnect(Session session, IFileSystem fileSystem, string basePath);
 
-    bool TryDisconnect(ISession session);
+    bool TryDisconnect(Session session);
 
     bool TryChangePath(string newPath);
 }

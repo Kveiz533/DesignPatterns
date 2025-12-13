@@ -6,11 +6,11 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParse
 public sealed class SourcePathArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IPositionalArgument<TBuilder>
     where TBuilder : ICommandBuilder, ISourcePathBuilder
 {
-    protected override ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder)
+    public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
         if (iterator.Current is null)
         {
-            return new ParseResult.Failure("Too few arguments");
+            return NextParser.Parse(iterator, builder);
         }
 
         string name = iterator.Current;
@@ -22,6 +22,6 @@ public sealed class SourcePathArgumentParser<TBuilder> : BaseArgumentParser<TBui
             return new ParseResult.Success(builder);
         }
 
-        return new ParseResult.Failure("Arguments error");
+        return NextParser.Parse(iterator, builder);
     }
 }

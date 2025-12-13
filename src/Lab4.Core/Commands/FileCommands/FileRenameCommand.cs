@@ -14,7 +14,7 @@ public sealed class FileRenameCommand : ICommand
         _name = name;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (!session.IsConnected)
         {

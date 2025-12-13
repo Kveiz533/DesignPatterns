@@ -1,16 +1,23 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers.FlagArguments;
 
 public sealed class DepthArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IFlagArgument<TBuilder>
     where TBuilder : IDepthBuilder, ICommandBuilder
 {
-    protected override ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder)
+    private readonly ITypeParser<TBuilder> _subChain;
+
+    public DepthArgumentParser(ITypeParser<TBuilder> subChain)
+    {
+        _subChain = subChain;
+    }
+
+    public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
         if (iterator.Current != "-d")
         {
-            return new ParseResult.Failure("Not depth flag");
+            return NextParser.Parse(iterator, builder);
         }
 
         iterator.MoveNext();
@@ -20,21 +27,9 @@ public sealed class DepthArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>
             return new ParseResult.CriticalFailure("Too few arguments");
         }
 
-        string depth = iterator.Current;
+        ParseResult resultType = _subChain.Parse(iterator, builder);
 
-        if (!int.TryParse(depth, out int parsedDepth))
-        {
-            return new ParseResult.CriticalFailure("Depth must be an integer");
-        }
-
-        if (parsedDepth <= 0)
-        {
-            return new ParseResult.CriticalFailure("Depth must be a positive integer");
-        }
-
-        SetArgumentResult buildingResult = builder.SetDepth(parsedDepth);
-
-        if (buildingResult is SetArgumentResult.Success)
+        if (resultType is ParseResult.Success)
         {
             iterator.MoveNext();
             return new ParseResult.Success(builder);

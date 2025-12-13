@@ -17,12 +17,12 @@ public sealed class ConnectedState : ISessionState
         CurrentPath = basePath;
     }
 
-    public bool TryConnect(ISession session, IFileSystem fileSystem, string basePath)
+    public bool TryConnect(Session session, IFileSystem fileSystem, string basePath)
     {
         return false;
     }
 
-    public bool TryDisconnect(ISession session)
+    public bool TryDisconnect(Session session)
     {
         session.UpdateState(new DisconnectedState());
         return true;

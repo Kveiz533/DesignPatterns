@@ -7,7 +7,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 public sealed class ModeFileSystemLocalTypeParser<TBuilder> : BaseTypeParser<TBuilder>
 where TBuilder : ICommandBuilder, IModeFileSystemBuilder
 {
-    protected override ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder)
+    public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
         if (iterator.Current is null)
         {
@@ -18,7 +18,7 @@ where TBuilder : ICommandBuilder, IModeFileSystemBuilder
 
         if (fileSystem != "local")
         {
-            return new ParseResult.CriticalFailure("FileSystem not defined.");
+            return NextParser.Parse(iterator, builder);
         }
 
         SetArgumentResult buildingResult = builder.SetModeFileSystem(new LocalFileSystem());

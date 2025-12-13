@@ -4,10 +4,12 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParser
 
 public sealed class DisconnectParser : BaseParser
 {
-    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    public override ParseResult Parse(IEnumerator<string> iterator)
     {
         if (iterator.Current != "disconnect")
-            return new ParseResult.Failure("Not disconnect command.");
+        {
+            return NextParser.Parse(iterator);
+        }
 
         iterator.MoveNext();
         var builder = new DisconnectCommandBuilder();

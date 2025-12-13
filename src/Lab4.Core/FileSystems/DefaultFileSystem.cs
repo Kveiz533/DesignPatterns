@@ -1,4 +1,5 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.ResultTypes;
+﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemNodes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Formatters;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
 
@@ -11,12 +12,14 @@ public sealed class DefaultFileSystem : IFileSystem
         return new OpenStreamResult.Failure("Can't open file.");
     }
 
-    public GetChildrenResult GetChildren(string path)
+    public IEnumerable<IFileSystemComponent> GetChildren(string path)
     {
-        return new GetChildrenResult.Failure("Can't get children.");
+        yield break;
     }
 
-    public void TreeGoTo(string path, ISession session) { }
+    public void Write(string value) { }
+
+    public void TreeGoTo(string path, Session session) { }
 
     public void FileShow(Stream stream, IFormatter formatter) { }
 

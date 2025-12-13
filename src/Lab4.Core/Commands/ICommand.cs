@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
 public interface ICommand
 {
-    CommandResult Execute(ISession session);
+    CommandResult Execute(Session session);
 }

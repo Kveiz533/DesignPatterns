@@ -5,31 +5,19 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParse
 public abstract class BaseArgumentParser<TBuilder> : IArgumentParser<TBuilder>
     where TBuilder : ICommandBuilder
 {
-    private IArgumentParser<TBuilder> _nextParser = new DefaultArgumentParser<TBuilder>();
+    protected IArgumentParser<TBuilder> NextParser { get; private set; } = new DefaultArgumentParser<TBuilder>();
 
     public void AddNext(IArgumentParser<TBuilder> parser)
     {
-        if (_nextParser is not DefaultArgumentParser<TBuilder>)
+        if (NextParser is not DefaultArgumentParser<TBuilder>)
         {
-            _nextParser.AddNext(parser);
+            NextParser.AddNext(parser);
         }
         else
         {
-            _nextParser = parser;
+            NextParser = parser;
         }
     }
 
-    public ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
-    {
-        ParseResult result = ParseCore(iterator, builder);
-
-        if (result is ParseResult.Failure)
-        {
-            return _nextParser.Parse(iterator, builder);
-        }
-
-        return result;
-    }
-
-    protected abstract ParseResult ParseCore(IEnumerator<string> iterator, TBuilder builder);
+    public abstract ParseResult Parse(IEnumerator<string> iterator, TBuilder builder);
 }

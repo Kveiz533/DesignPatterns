@@ -11,7 +11,7 @@ public class SimulationRunner
     public void Run()
     {
         RootParser parser = ParserFactory.CreateRootParser();
-        ISession session = new LocalSession();
+        var session = new Session();
 
         while (true)
         {

@@ -9,10 +9,12 @@ public sealed class FileParser : BaseParser
         _subChain = subChain;
     }
 
-    protected override ParseResult ParseCore(IEnumerator<string> iterator)
+    public override ParseResult Parse(IEnumerator<string> iterator)
     {
         if (iterator.Current != "file")
-            return new ParseResult.Failure("Not file command.");
+        {
+            return NextParser.Parse(iterator);
+        }
 
         iterator.MoveNext();
         return _subChain.Parse(iterator);

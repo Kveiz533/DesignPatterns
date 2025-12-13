@@ -15,7 +15,7 @@ public sealed class FileShowCommand : ICommand
         _formatter = formatter;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (!session.IsConnected)
         {
@@ -25,9 +25,9 @@ public sealed class FileShowCommand : ICommand
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _path);
         string sourceAbsPath;
 
-        if (resolveAbsPath is ResolveResult.Success success1)
+        if (resolveAbsPath is ResolveResult.Success resolveAbsPathSuccess)
         {
-            sourceAbsPath = success1.Path;
+            sourceAbsPath = resolveAbsPathSuccess.Path;
         }
         else
         {
@@ -36,9 +36,9 @@ public sealed class FileShowCommand : ICommand
 
         OpenStreamResult openStream = session.FileSystem.OpenFile(sourceAbsPath);
 
-        if (openStream is OpenStreamResult.Success success2)
+        if (openStream is OpenStreamResult.Success openStreamSuccess)
         {
-            session.FileSystem.FileShow(success2.Stream, _formatter);
+            session.FileSystem.FileShow(openStreamSuccess.Stream, _formatter);
             return new CommandResult.Success();
         }
 

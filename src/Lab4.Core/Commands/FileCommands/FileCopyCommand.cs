@@ -14,7 +14,7 @@ public sealed class FileCopyCommand : ICommand
         _destinationPath = destinationPath;
     }
 
-    public CommandResult Execute(ISession session)
+    public CommandResult Execute(Session session)
     {
         if (!session.IsConnected)
         {
@@ -26,18 +26,18 @@ public sealed class FileCopyCommand : ICommand
         string absSourcePath;
         string absDestinationPath;
 
-        if (resolveAbsSourcePath is ResolveResult.Success success1)
+        if (resolveAbsSourcePath is ResolveResult.Success resolveAbsSourcePathSuccess)
         {
-            absSourcePath = success1.Path;
+            absSourcePath = resolveAbsSourcePathSuccess.Path;
         }
         else
         {
             return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
-        if (resolvedAbsDestinationPath is ResolveResult.Success success2)
+        if (resolvedAbsDestinationPath is ResolveResult.Success resolvedAbsDestinationPathSuccess)
         {
-            absDestinationPath = success2.Path;
+            absDestinationPath = resolvedAbsDestinationPathSuccess.Path;
         }
         else
         {

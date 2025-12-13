@@ -33,7 +33,10 @@ public static class ParserFactory
 
         var treeList = new TreeListParser(
             new ArgumentSubChainBuilder<TreeListCommandBuilder>()
-                .AddFlag(new DepthArgumentParser<TreeListCommandBuilder>())
+                .AddFlag(new DepthArgumentParser<TreeListCommandBuilder>(
+                    new TypeSubChainBuilder<TreeListCommandBuilder>()
+                        .AddType(new DepthTypeParser<TreeListCommandBuilder>())
+                        .Build()))
                 .Build());
 
         var fileShow = new FileShowParser(

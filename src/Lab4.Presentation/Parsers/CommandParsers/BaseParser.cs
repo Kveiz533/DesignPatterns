@@ -2,7 +2,7 @@
 
 public abstract class BaseParser : ICommandParser
 {
-    private ICommandParser NextParser { get; set; } = new DefaultCommandParser();
+    protected ICommandParser NextParser { get; private set; } = new DefaultCommandParser();
 
     public void AddNext(ICommandParser nextParser)
     {
@@ -16,15 +16,5 @@ public abstract class BaseParser : ICommandParser
         }
     }
 
-    public ParseResult Parse(IEnumerator<string> iterator)
-    {
-        ParseResult result = ParseCore(iterator);
-
-        if (result is ParseResult.Failure)
-            return NextParser.Parse(iterator);
-
-        return result;
-    }
-
-    protected abstract ParseResult ParseCore(IEnumerator<string> iterator);
+    public abstract ParseResult Parse(IEnumerator<string> iterator);
 }
