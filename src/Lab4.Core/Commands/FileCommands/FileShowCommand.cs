@@ -23,25 +23,14 @@ public sealed class FileShowCommand : ICommand
         }
 
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _path);
-        string sourceAbsPath;
 
-        if (resolveAbsPath is ResolveResult.Success resolveAbsPathSuccess)
-        {
-            sourceAbsPath = resolveAbsPathSuccess.Path;
-        }
-        else
+        if (resolveAbsPath is not ResolveResult.Success { Path: var sourceAbsPath })
         {
             return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
-        OpenStreamResult openStream = session.FileSystem.OpenFile(sourceAbsPath);
-
-        if (openStream is OpenStreamResult.Success openStreamSuccess)
-        {
-            session.FileSystem.FileShow(openStreamSuccess.Stream, _formatter);
-            return new CommandResult.Success();
-        }
-
-        return new CommandResult.Failure("Stream cannot be opened.");
+        Stream openStream = session.FileSystem.OpenFile(sourceAbsPath);
+        _formatter.Format(openStream);
+        return new CommandResult.Success();
     }
 }

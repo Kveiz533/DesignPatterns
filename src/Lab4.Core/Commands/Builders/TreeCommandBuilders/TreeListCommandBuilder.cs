@@ -1,6 +1,7 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.TreeCommands;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemVisitor;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands.Builders.TreeCommandBuilders;
 
@@ -24,6 +25,9 @@ public sealed class TreeListCommandBuilder : IDepthBuilder
         return _depth is null
             ? new BuildingResult.Failure("Depth cannot be null.")
             : new BuildingResult.Success(
-                new TreeListCommand(_depth.Value));
+                new TreeListCommand(
+                    _depth.Value,
+                    new PrintingEntities("[D]", "[F]", ' '),
+                    Console.Out));
     }
 }

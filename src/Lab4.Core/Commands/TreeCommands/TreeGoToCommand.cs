@@ -20,13 +20,8 @@ public sealed class TreeGoToCommand : ICommand
         }
 
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _sourcePath);
-        string sourceAbsPath;
 
-        if (resolveAbsPath is ResolveResult.Success resolveAbsPathSuccess)
-        {
-            sourceAbsPath = resolveAbsPathSuccess.Path;
-        }
-        else
+        if (resolveAbsPath is not ResolveResult.Success { Path: var sourceAbsPath })
         {
             return new CommandResult.Failure("SourcePath cannot be resolved.");
         }

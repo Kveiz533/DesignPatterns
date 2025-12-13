@@ -20,13 +20,8 @@ public sealed class FileDeleteCommand : ICommand
         }
 
         ResolveResult resolvedAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _path);
-        string absPath;
 
-        if (resolvedAbsPath is ResolveResult.Success success)
-        {
-            absPath = success.Path;
-        }
-        else
+        if (resolvedAbsPath is not ResolveResult.Success { Path: var absPath })
         {
             return new CommandResult.Failure("Path cannot be resolved.");
         }

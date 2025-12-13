@@ -2,7 +2,7 @@
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemNodes;
 
-public class DirectoryComponent : IFileSystemComponent
+public class DirectoryComponent : IDirectoryComponent
 {
     public string Path { get; }
 

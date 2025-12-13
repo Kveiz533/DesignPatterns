@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.ArgumentParsers.FlagArguments;
 
-public sealed class ModeFileSystemArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>, IFlagArgument<TBuilder>
+public sealed class ModeFileSystemArgumentParser<TBuilder> : BaseArgumentParser<TBuilder>
     where TBuilder : IModeFileSystemBuilder, ICommandBuilder
 {
     private readonly ITypeParser<TBuilder> _subChain;
@@ -17,24 +17,24 @@ public sealed class ModeFileSystemArgumentParser<TBuilder> : BaseArgumentParser<
     {
         if (iterator.Current != "-m")
         {
-            return NextParser.Parse(iterator, builder);
+            return CallNext(iterator, builder);
         }
 
         iterator.MoveNext();
 
         if (iterator.Current is null)
         {
-            return new ParseResult.CriticalFailure("Too few arguments");
+            return new ParseResult.Failure("Too few arguments");
         }
 
         ParseResult resultType = _subChain.Parse(iterator, builder);
 
-        if (resultType is ParseResult.Success)
+        if (resultType is ParseResult.Failure)
         {
-            iterator.MoveNext();
-            return new ParseResult.Success(builder);
+            return CallNext(iterator, builder);
         }
 
-        return new ParseResult.CriticalFailure("Arguments error");
+        iterator.MoveNext();
+        return new ParseResult.Success(builder);
     }
 }

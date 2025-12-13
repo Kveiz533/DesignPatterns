@@ -16,7 +16,7 @@ public sealed class FileDeleteParser : BaseParser
     {
         if (iterator.Current != "delete")
         {
-            return NextParser.Parse(iterator);
+            return CallNext(iterator);
         }
 
         iterator.MoveNext();
@@ -24,20 +24,12 @@ public sealed class FileDeleteParser : BaseParser
 
         while (iterator.Current is not null)
         {
-            bool handled = false;
             ParseResult parseResult = _subChain.Parse(iterator, builder);
 
-            if (parseResult is ParseResult.Success)
+            if (parseResult is ParseResult.Failure failure)
             {
-                handled = true;
+                return new ParseResult.Failure(failure.Message);
             }
-            else if (parseResult is ParseResult.CriticalFailure failure)
-            {
-                return new ParseResult.CriticalFailure(failure.Message);
-            }
-
-            if (!handled)
-                return new ParseResult.CriticalFailure("Invalid argument.");
         }
 
         return new ParseResult.Success(builder);

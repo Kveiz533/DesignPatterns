@@ -8,15 +8,14 @@ public sealed class DisconnectParser : BaseParser
     {
         if (iterator.Current != "disconnect")
         {
-            return NextParser.Parse(iterator);
+            return CallNext(iterator);
         }
 
         iterator.MoveNext();
         var builder = new DisconnectCommandBuilder();
 
-        if (iterator.Current is not null)
-            return new ParseResult.CriticalFailure("Too many arguments for command.");
-
-        return new ParseResult.Success(builder);
+        return iterator.Current is not null
+            ? new ParseResult.Failure("Too many arguments for command.")
+            : new ParseResult.Success(builder);
     }
 }

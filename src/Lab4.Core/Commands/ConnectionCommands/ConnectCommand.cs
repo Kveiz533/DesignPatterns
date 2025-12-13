@@ -16,16 +16,6 @@ public sealed class ConnectCommand : ICommand
 
     public CommandResult Execute(Session session)
     {
-        if (session.IsConnected)
-        {
-            return new CommandResult.Failure("Already connected.");
-        }
-
-        if (!_fileSystem.DirectoryExists(_address))
-        {
-            return new CommandResult.Failure($"Directory '{_address}' does not exist or is not accessible.");
-        }
-
         session.Connect(_fileSystem, _address);
         return new CommandResult.Success();
     }

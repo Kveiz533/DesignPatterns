@@ -13,7 +13,7 @@ public sealed class TreeParser : BaseParser
     {
         if (iterator.Current != "tree")
         {
-            return NextParser.Parse(iterator);
+            return CallNext(iterator);
         }
 
         iterator.MoveNext();

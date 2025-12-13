@@ -1,15 +1,14 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.ResultTypes;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Formatters;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 public sealed class DefaultFileSystem : IFileSystem
 {
-    public OpenStreamResult OpenFile(string path)
+    public Stream OpenFile(string path)
     {
-        return new OpenStreamResult.Failure("Can't open file.");
+        return new MemoryStream();
     }
 
     public IEnumerable<IFileSystemComponent> GetChildren(string path)
@@ -17,11 +16,7 @@ public sealed class DefaultFileSystem : IFileSystem
         yield break;
     }
 
-    public void Write(string value) { }
-
     public void TreeGoTo(string path, Session session) { }
-
-    public void FileShow(Stream stream, IFormatter formatter) { }
 
     public void FileMove(string sourcePath, string destinationPath) { }
 
@@ -54,5 +49,10 @@ public sealed class DefaultFileSystem : IFileSystem
     public string GetFileName(string path)
     {
         return string.Empty;
+    }
+
+    public IDirectoryComponent? GetLinker(string path)
+    {
+        return null;
     }
 }

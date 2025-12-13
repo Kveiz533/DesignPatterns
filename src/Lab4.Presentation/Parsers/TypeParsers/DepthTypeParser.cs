@@ -8,30 +8,22 @@ public class DepthTypeParser<TBuilder> : BaseTypeParser<TBuilder>
 {
     public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
-        if (iterator.Current is null)
-        {
-            return new ParseResult.CriticalFailure("Too few arguments.");
-        }
-
         string depth = iterator.Current;
 
         if (!int.TryParse(depth, out int parsedDepth))
         {
-            return NextParser.Parse(iterator, builder);
+            return CallNext(iterator, builder);
         }
 
         if (parsedDepth <= 0)
         {
-            return NextParser.Parse(iterator, builder);
+            return CallNext(iterator, builder);
         }
 
         SetArgumentResult buildingResult = builder.SetDepth(parsedDepth);
 
-        if (buildingResult is SetArgumentResult.Success)
-        {
-            return new ParseResult.Success(builder);
-        }
-
-        return new ParseResult.CriticalFailure("Arguments error.");
+        return buildingResult is SetArgumentResult.Success
+            ? new ParseResult.Success(builder)
+            : new ParseResult.Failure("Arguments error.");
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemVisitor;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions.SessionStates;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
@@ -7,8 +6,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Sessions;
 public sealed class Session
 {
     private ISessionState _sessionState = new DisconnectedState();
-
-    public PrintingEntities PrintingEntities { get; } = new();
 
     public string RootPath => _sessionState.BasePath;
 
@@ -30,6 +27,11 @@ public sealed class Session
 
     public bool Connect(IFileSystem fileSystem, string basePath)
     {
+        if (IsConnected || !fileSystem.DirectoryExists(basePath))
+        {
+            return false;
+        }
+
         return _sessionState.TryConnect(this, fileSystem, basePath);
     }
 

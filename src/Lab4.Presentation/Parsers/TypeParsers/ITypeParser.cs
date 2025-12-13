@@ -2,7 +2,7 @@
 
 public interface ITypeParser<TBuilder>
 {
-    void AddNext(ITypeParser<TBuilder> parser);
+    ITypeParser<TBuilder> AddNext(ITypeParser<TBuilder> parser);
 
     ParseResult Parse(IEnumerator<string> iterator, TBuilder builder);
 }

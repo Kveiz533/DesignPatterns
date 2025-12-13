@@ -23,23 +23,13 @@ public sealed class FileCopyCommand : ICommand
 
         ResolveResult resolveAbsSourcePath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _sourcePath);
         ResolveResult resolvedAbsDestinationPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _destinationPath);
-        string absSourcePath;
-        string absDestinationPath;
 
-        if (resolveAbsSourcePath is ResolveResult.Success resolveAbsSourcePathSuccess)
-        {
-            absSourcePath = resolveAbsSourcePathSuccess.Path;
-        }
-        else
+        if (resolveAbsSourcePath is not ResolveResult.Success { Path: var absSourcePath })
         {
             return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
-        if (resolvedAbsDestinationPath is ResolveResult.Success resolvedAbsDestinationPathSuccess)
-        {
-            absDestinationPath = resolvedAbsDestinationPathSuccess.Path;
-        }
-        else
+        if (resolvedAbsDestinationPath is not ResolveResult.Success { Path: var absDestinationPath })
         {
             return new CommandResult.Failure("DestinationPath cannot be resolved.");
         }

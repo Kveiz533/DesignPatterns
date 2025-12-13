@@ -2,7 +2,7 @@
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.RootParserEntities;
 
-public sealed class RootParser : ICommandParser
+public sealed class RootParser
 {
     private readonly ICommandParser _subChainCommands;
 
@@ -15,11 +15,9 @@ public sealed class RootParser : ICommandParser
     {
         iterator.MoveNext();
         if (iterator.Current is null)
-            return new ParseResult.CriticalFailure("Is not a command.");
+            return new ParseResult.Failure("Is not a command.");
 
         ParseResult result = _subChainCommands.Parse(iterator);
         return result;
     }
-
-    public void AddNext(ICommandParser nextParser) { }
 }

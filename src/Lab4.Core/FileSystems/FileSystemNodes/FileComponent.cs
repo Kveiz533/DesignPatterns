@@ -2,7 +2,7 @@
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemNodes;
 
-public class FileComponent : IFileSystemComponent
+public class FileComponent : IFileComponent
 {
     public string Name { get; }
 

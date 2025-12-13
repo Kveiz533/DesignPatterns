@@ -22,18 +22,13 @@ public sealed class FileRenameCommand : ICommand
         }
 
         ResolveResult resolveAbsPath = session.FileSystem.ResolvePath(session.RootPath, session.CurrentPath, _path);
-        string sourceAbsPath;
 
-        if (resolveAbsPath is ResolveResult.Success success)
-        {
-            sourceAbsPath = success.Path;
-        }
-        else
+        if (resolveAbsPath is not ResolveResult.Success { Path: var sourceAbsPath })
         {
             return new CommandResult.Failure("SourcePath cannot be resolved.");
         }
 
-        if (!File.Exists(sourceAbsPath))
+        if (!session.FileSystem.FileExists(sourceAbsPath))
         {
             return new CommandResult.Failure($"Cannot rename file {sourceAbsPath}.");
         }
@@ -47,7 +42,7 @@ public sealed class FileRenameCommand : ICommand
 
         string destinationAbsPath = session.FileSystem.CombinePath(directory, _name);
 
-        if (File.Exists(destinationAbsPath))
+        if (session.FileSystem.FileExists(destinationAbsPath))
         {
             return new CommandResult.Failure($"File with name '{_name}' already exists in this directory.");
         }

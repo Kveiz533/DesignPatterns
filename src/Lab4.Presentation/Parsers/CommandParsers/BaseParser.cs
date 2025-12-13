@@ -2,19 +2,26 @@
 
 public abstract class BaseParser : ICommandParser
 {
-    protected ICommandParser NextParser { get; private set; } = new DefaultCommandParser();
+    private ICommandParser? _nextParser;
 
-    public void AddNext(ICommandParser nextParser)
+    public ICommandParser AddNext(ICommandParser nextParser)
     {
-        if (NextParser is not DefaultCommandParser)
+        if (_nextParser is not null)
         {
-            NextParser.AddNext(nextParser);
+            _nextParser.AddNext(nextParser);
         }
         else
         {
-            NextParser = nextParser;
+            _nextParser = nextParser;
         }
+
+        return this;
     }
 
     public abstract ParseResult Parse(IEnumerator<string> iterator);
+
+    protected ParseResult CallNext(IEnumerator<string> iterator)
+    {
+        return _nextParser?.Parse(iterator) ?? new ParseResult.Failure("Wrong command");
+    }
 }

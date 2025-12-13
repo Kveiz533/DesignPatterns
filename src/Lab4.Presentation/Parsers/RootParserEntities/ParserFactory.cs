@@ -7,7 +7,6 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.Co
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.FileParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.CommandParsers.TreeParsers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.SubChainBuilders;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.RootParserEntities;
 
@@ -16,83 +15,56 @@ public static class ParserFactory
     public static RootParser CreateRootParser()
     {
         var connectParser = new ConnectParser(
-            new ArgumentSubChainBuilder<ConnectCommandBuilder>()
-                .AddFlag(new ModeFileSystemArgumentParser<ConnectCommandBuilder>(
-                    new TypeSubChainBuilder<ConnectCommandBuilder>()
-                        .AddType(new ModeFileSystemLocalTypeParser<ConnectCommandBuilder>())
-                        .Build()))
-                .AddPositionalArgument(new SourcePathArgumentParser<ConnectCommandBuilder>())
-                .Build());
+            new SourcePathArgumentParser<ConnectCommandBuilder>()
+                .AddNext(new ModeFileSystemArgumentParser<ConnectCommandBuilder>(
+                    new ModeFileSystemLocalTypeParser<ConnectCommandBuilder>())));
 
         var disconnectParser = new DisconnectParser();
 
         var treeGoToParser = new TreeGoToParser(
-            new ArgumentSubChainBuilder<TreeGoToCommandBuilder>()
-                .AddPositionalArgument(new SourcePathArgumentParser<TreeGoToCommandBuilder>())
-                .Build());
+                new SourcePathArgumentParser<TreeGoToCommandBuilder>());
 
-        var treeList = new TreeListParser(
-            new ArgumentSubChainBuilder<TreeListCommandBuilder>()
-                .AddFlag(new DepthArgumentParser<TreeListCommandBuilder>(
-                    new TypeSubChainBuilder<TreeListCommandBuilder>()
-                        .AddType(new DepthTypeParser<TreeListCommandBuilder>())
-                        .Build()))
-                .Build());
+        var treeList =
+            new TreeListParser(
+                new DepthArgumentParser<TreeListCommandBuilder>(
+                    new DepthTypeParser<TreeListCommandBuilder>()));
 
         var fileShow = new FileShowParser(
-            new ArgumentSubChainBuilder<FileShowCommandBuilder>()
-                .AddPositionalArgument(new SourcePathArgumentParser<FileShowCommandBuilder>())
-                .AddFlag(new ModeFormatterArgumentParser<FileShowCommandBuilder>(
-                    new TypeSubChainBuilder<FileShowCommandBuilder>()
-                        .AddType(new ModeFormatterConsoleTypeParser<FileShowCommandBuilder>())
-                        .Build()))
-                .Build());
+            new SourcePathArgumentParser<FileShowCommandBuilder>()
+                .AddNext(new ModeFormatterArgumentParser<FileShowCommandBuilder>(
+                    new ModeFormatterConsoleTypeParser<FileShowCommandBuilder>())));
 
         var fileMove = new FileMoveParser(
-            new ArgumentSubChainBuilder<FileMoveCommandBuilder>()
-                .AddPositionalArgument(new SourcePathArgumentParser<FileMoveCommandBuilder>())
-                .AddPositionalArgument(new DestinationPathArgumentParser<FileMoveCommandBuilder>())
-                .Build());
+                new SourcePathArgumentParser<FileMoveCommandBuilder>()
+                    .AddNext(new DestinationPathArgumentParser<FileMoveCommandBuilder>()));
 
         var fileCopy = new FileCopyParser(
-            new ArgumentSubChainBuilder<FileCopyCommandBuilder>()
-                .AddPositionalArgument(new SourcePathArgumentParser<FileCopyCommandBuilder>())
-                .AddPositionalArgument(new DestinationPathArgumentParser<FileCopyCommandBuilder>())
-                .Build());
+                new SourcePathArgumentParser<FileCopyCommandBuilder>()
+                    .AddNext(new DestinationPathArgumentParser<FileCopyCommandBuilder>()));
 
         var fileDelete = new FileDeleteParser(
-            new ArgumentSubChainBuilder<FileDeleteCommandBuilder>()
-                .AddPositionalArgument(new SourcePathArgumentParser<FileDeleteCommandBuilder>())
-                .Build());
+            new SourcePathArgumentParser<FileDeleteCommandBuilder>());
 
         var fileRename = new FileRenameParser(
-            new ArgumentSubChainBuilder<FileRenameCommandBuilder>()
-                .AddPositionalArgument(new SourcePathArgumentParser<FileRenameCommandBuilder>())
-                .AddPositionalArgument(new NameArgumentParser<FileRenameCommandBuilder>())
-                .Build());
+                new SourcePathArgumentParser<FileRenameCommandBuilder>()
+                    .AddNext(new NameArgumentParser<FileRenameCommandBuilder>()));
 
         var file = new FileParser(
-            new ParserSubChainBuilder()
-                .AddParser(fileShow)
-                .AddParser(fileMove)
-                .AddParser(fileCopy)
-                .AddParser(fileDelete)
-                .AddParser(fileRename)
-                .Build());
+                fileShow
+                .AddNext(fileMove)
+                .AddNext(fileCopy)
+                .AddNext(fileDelete)
+                .AddNext(fileRename));
 
         var tree = new TreeParser(
-            new ParserSubChainBuilder()
-                .AddParser(treeGoToParser)
-                .AddParser(treeList)
-                .Build());
+                treeGoToParser
+                .AddNext(treeList));
 
         var root = new RootParser(
-            new ParserSubChainBuilder()
-                .AddParser(connectParser)
-                .AddParser(disconnectParser)
-                .AddParser(file)
-                .AddParser(tree)
-                .Build());
+                connectParser
+                .AddNext(disconnectParser)
+                .AddNext(file)
+                .AddNext(tree));
 
         return root;
     }

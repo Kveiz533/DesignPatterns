@@ -13,7 +13,7 @@ public sealed class FileParser : BaseParser
     {
         if (iterator.Current != "file")
         {
-            return NextParser.Parse(iterator);
+            return CallNext(iterator);
         }
 
         iterator.MoveNext();

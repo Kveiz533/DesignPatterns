@@ -6,8 +6,8 @@ public sealed class DisconnectCommand : ICommand
 {
     public CommandResult Execute(Session session)
     {
-        return session.Disconnect() ?
-            new CommandResult.Success() :
-            new CommandResult.Failure("Already disconnected.");
+        return session.Disconnect()
+            ? new CommandResult.Success()
+            : new CommandResult.Failure("Already disconnected.");
     }
 }

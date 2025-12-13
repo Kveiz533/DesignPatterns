@@ -7,9 +7,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 public sealed class LocalFileSystem : IFileSystem
 {
-    public OpenStreamResult OpenFile(string path)
+    public Stream OpenFile(string path)
     {
-        return new OpenStreamResult.Success(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+        return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
     }
 
     public IEnumerable<IFileSystemComponent> GetChildren(string path)
@@ -25,18 +25,14 @@ public sealed class LocalFileSystem : IFileSystem
         }
     }
 
-    public void Write(string value)
-    {
-        Console.WriteLine(value);
-    }
-
     public void TreeGoTo(string path, Session session)
     {
         session.ChangePath(path);
     }
 
-    public void FileShow(Stream stream, IFormatter formatter)
+    public void FileShow(string path, IFormatter formatter)
     {
+        using Stream stream = OpenFile(path);
         formatter.Format(stream);
     }
 
@@ -100,5 +96,11 @@ public sealed class LocalFileSystem : IFileSystem
     public string GetFileName(string path)
     {
         return Path.GetFileName(path);
+    }
+
+    public IDirectoryComponent? GetLinker(string path)
+    {
+        string directoryName = GetFileName(path);
+        return new DirectoryComponent(directoryName, path);
     }
 }

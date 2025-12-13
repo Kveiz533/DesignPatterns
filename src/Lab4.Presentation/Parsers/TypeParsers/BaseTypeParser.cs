@@ -5,19 +5,26 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parsers.TypeParsers;
 public abstract class BaseTypeParser<TBuilder> : ITypeParser<TBuilder>
 where TBuilder : ICommandBuilder
 {
-    protected ITypeParser<TBuilder> NextParser { get; private set; } = new DefaultTypeParser<TBuilder>();
+    private ITypeParser<TBuilder>? _nextParser;
 
-    public void AddNext(ITypeParser<TBuilder> parser)
+    public ITypeParser<TBuilder> AddNext(ITypeParser<TBuilder> parser)
     {
-        if (NextParser is not DefaultTypeParser<TBuilder>)
+        if (_nextParser is not null)
         {
-            NextParser.AddNext(parser);
+            _nextParser.AddNext(parser);
         }
         else
         {
-            NextParser = parser;
+            _nextParser = parser;
         }
+
+        return this;
     }
 
     public abstract ParseResult Parse(IEnumerator<string> iterator, TBuilder builder);
+
+    protected ParseResult CallNext(IEnumerator<string> iterator, TBuilder builder)
+    {
+        return _nextParser?.Parse(iterator, builder) ?? new ParseResult.Failure("Wrong command");
+    }
 }

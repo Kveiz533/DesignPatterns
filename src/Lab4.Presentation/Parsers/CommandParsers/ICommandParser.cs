@@ -4,5 +4,5 @@ public interface ICommandParser
 {
     ParseResult Parse(IEnumerator<string> iterator);
 
-    void AddNext(ICommandParser nextParser);
+    ICommandParser AddNext(ICommandParser nextParser);
 }

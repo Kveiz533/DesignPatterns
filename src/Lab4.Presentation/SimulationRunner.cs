@@ -30,11 +30,7 @@ public class SimulationRunner
                 IEnumerator<string> iterator = command.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList().GetEnumerator();
                 ParseResult parseResult = parser.Parse(iterator);
 
-                if (parseResult is ParseResult.CriticalFailure criticalFailure)
-                {
-                    Console.WriteLine(criticalFailure.Message);
-                }
-                else if (parseResult is ParseResult.Failure failure)
+                if (parseResult is ParseResult.Failure failure)
                 {
                     Console.WriteLine(failure.Message);
                 }

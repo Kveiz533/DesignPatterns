@@ -9,25 +9,17 @@ where TBuilder : ICommandBuilder, IModeFileSystemBuilder
 {
     public override ParseResult Parse(IEnumerator<string> iterator, TBuilder builder)
     {
-        if (iterator.Current is null)
-        {
-            return new ParseResult.CriticalFailure("Too few arguments.");
-        }
-
         string fileSystem = iterator.Current;
 
         if (fileSystem != "local")
         {
-            return NextParser.Parse(iterator, builder);
+            return CallNext(iterator, builder);
         }
 
         SetArgumentResult buildingResult = builder.SetModeFileSystem(new LocalFileSystem());
 
-        if (buildingResult is SetArgumentResult.Success)
-        {
-            return new ParseResult.Success(builder);
-        }
-
-        return new ParseResult.CriticalFailure("Arguments error.");
+        return buildingResult is SetArgumentResult.Success
+            ? new ParseResult.Success(builder)
+            : new ParseResult.Failure("Arguments error.");
     }
 }

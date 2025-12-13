@@ -24,13 +24,13 @@ public class ConsoleFileSystemVisitor : IFileSystemVisitor
         _fileSystem = fileSystem;
     }
 
-    public void Visit(FileComponent file)
+    public void Visit(IFileComponent file)
     {
         _builder.Append(_printingEntities.IndentSymbol, _padding);
         _builder.AppendLine($"{_printingEntities.FileSymbol} {file.Name}");
     }
 
-    public void Visit(DirectoryComponent directory)
+    public void Visit(IDirectoryComponent directory)
     {
         _builder.Append(_printingEntities.IndentSymbol, _padding);
         _builder.AppendLine($"{_printingEntities.DirectorySymbol} {directory.Name}");
