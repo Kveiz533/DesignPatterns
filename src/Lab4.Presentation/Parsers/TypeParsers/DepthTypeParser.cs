@@ -10,12 +10,7 @@ public class DepthTypeParser<TBuilder> : BaseTypeParser<TBuilder>
     {
         string depth = iterator.Current;
 
-        if (!int.TryParse(depth, out int parsedDepth))
-        {
-            return CallNext(iterator, builder);
-        }
-
-        if (parsedDepth <= 0)
+        if (!int.TryParse(depth, out int parsedDepth) || parsedDepth <= 0)
         {
             return CallNext(iterator, builder);
         }
