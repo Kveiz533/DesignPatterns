@@ -40,7 +40,7 @@ public sealed class SessionService : ISessionService
         }
 
         var sessionId = Guid.NewGuid();
-        var session = new Session(sessionId, account.AccountNumber);
+        var session = new UserSession(sessionId, account.AccountNumber);
         _context.UserSessionRepository.Add(session);
 
         return new LogInUser.Response.Success(session.MapToDto());
@@ -56,7 +56,7 @@ public sealed class SessionService : ISessionService
         }
 
         var sessionId = Guid.NewGuid();
-        var session = new Session(sessionId, "Admin");
+        var session = new AdminSession(sessionId);
         _context.AdminSessionRepository.Add(session);
 
         return new LogInAdmin.Response.Success(session.MapToDto());

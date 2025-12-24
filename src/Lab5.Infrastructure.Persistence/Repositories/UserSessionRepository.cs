@@ -6,14 +6,14 @@ namespace Lab5.Infrastructure.Persistence.Repositories;
 
 public sealed class UserSessionRepository : IUserSessionRepository
 {
-    private readonly Dictionary<Guid, Session> _values = [];
+    private readonly Dictionary<Guid, UserSession> _values = [];
 
-    public void Add(Session session)
+    public void Add(UserSession userSession)
     {
-        _values.Add(session.SessionId, session);
+        _values.Add(userSession.SessionId, userSession);
     }
 
-    public IEnumerable<Session> Query(SessionQuery query)
+    public IEnumerable<UserSession> Query(SessionQuery query)
     {
         return _values.Values
             .Where(x => query.SessionId is [] || query.SessionId.Contains(x.SessionId));

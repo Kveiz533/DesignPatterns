@@ -5,7 +5,7 @@ namespace Lab5.Application.Abstractions.Repositories;
 
 public interface IUserSessionRepository
 {
-    void Add(Session session);
+    void Add(UserSession userSession);
 
-    IEnumerable<Session> Query(SessionQuery query);
+    IEnumerable<UserSession> Query(SessionQuery query);
 }

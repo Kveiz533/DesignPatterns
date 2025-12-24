@@ -15,7 +15,7 @@ public sealed class AccountRepository : IAccountRepository
 
     public void Update(Account account)
     {
-        if (!_values.ContainsKey(account.AccountNumber))
+        if (_values.ContainsKey(account.AccountNumber) is false)
             throw new InvalidOperationException("Order not found");
 
         _values[account.AccountNumber] = account;

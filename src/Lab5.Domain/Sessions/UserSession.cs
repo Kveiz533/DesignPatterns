@@ -1,8 +1,8 @@
 ﻿namespace Lab5.Domain.Sessions;
 
-public sealed class Session
+public sealed class UserSession
 {
-    public Session(Guid sessionId, string accountNumber)
+    public UserSession(Guid sessionId, string accountNumber)
     {
         SessionId = sessionId;
         AccountNumber = accountNumber;

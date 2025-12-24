@@ -23,7 +23,7 @@ public sealed class AccountService : IAccountService
     {
         Guid sessionId = request.SessionId;
 
-        Session? session = _context.UserSessionRepository
+        UserSession? session = _context.UserSessionRepository
             .Query(SessionQuery.Build(builder => builder.WithSessionId(sessionId)))
             .SingleOrDefault();
 
@@ -54,7 +54,7 @@ public sealed class AccountService : IAccountService
         Guid sessionId = request.SessionId;
         decimal balance = request.Amount;
 
-        Session? session = _context.UserSessionRepository
+        UserSession? session = _context.UserSessionRepository
             .Query(SessionQuery.Build(builder => builder.WithSessionId(sessionId)))
             .SingleOrDefault();
 
@@ -88,7 +88,7 @@ public sealed class AccountService : IAccountService
         Guid sessionId = request.SessionId;
         decimal balance = request.Amount;
 
-        Session? session = _context.UserSessionRepository
+        UserSession? session = _context.UserSessionRepository
             .Query(SessionQuery.Build(builder => builder.WithSessionId(sessionId)))
             .SingleOrDefault();
 
@@ -126,7 +126,7 @@ public sealed class AccountService : IAccountService
     {
         Guid sessionId = request.SessionId;
 
-        Session? session = _context.UserSessionRepository
+        UserSession? session = _context.UserSessionRepository
             .Query(SessionQuery.Build(builder => builder.WithSessionId(sessionId)))
             .SingleOrDefault();
 

@@ -41,7 +41,7 @@ public class BankOperationsTests
 
         mockUserSessionRepository
             .Query(Arg.Any<SessionQuery>())
-            .Returns([new Session(sessionId, AccountNumber)]);
+            .Returns([new UserSession(sessionId, AccountNumber)]);
         mockAccountRepository
             .Query(Arg.Any<AccountQuery>())
             .Returns([account]);
@@ -79,7 +79,7 @@ public class BankOperationsTests
 
         mockUserSessionRepository
             .Query(Arg.Any<SessionQuery>())
-            .Returns([new Session(sessionId, AccountNumber)]);
+            .Returns([new UserSession(sessionId, AccountNumber)]);
         mockAccountRepository
             .Query(Arg.Any<AccountQuery>())
             .Returns([account]);
@@ -117,7 +117,7 @@ public class BankOperationsTests
 
         mockUserSessionRepository
             .Query(Arg.Any<SessionQuery>())
-            .Returns([new Session(sessionId, AccountNumber)]);
+            .Returns([new UserSession(sessionId, AccountNumber)]);
         mockAccountRepository
             .Query(Arg.Any<AccountQuery>())
             .Returns([account]);

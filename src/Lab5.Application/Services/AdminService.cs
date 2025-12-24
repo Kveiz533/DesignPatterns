@@ -23,7 +23,7 @@ public sealed class AdminService : IAdminService
         string pinCode = request.PinCode;
         Guid sessionId = request.SessionId;
 
-        Session? session = _context.AdminSessionRepository
+        AdminSession? session = _context.AdminSessionRepository
             .Query(SessionQuery.Build(builder => builder.WithSessionId(sessionId)))
             .SingleOrDefault();
 
