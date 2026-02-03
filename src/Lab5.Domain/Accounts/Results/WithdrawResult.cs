@@ -1,0 +1,10 @@
+﻿namespace Lab5.Domain.Accounts.Results;
+
+public abstract record WithdrawResult
+{
+    private WithdrawResult() { }
+
+    public sealed record Success : WithdrawResult;
+
+    public sealed record Failure(string Message) : WithdrawResult;
+}
